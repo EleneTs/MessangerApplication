@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import com.google.firebase.auth.FirebaseAuth
 import ge.etsiramua.messangerApp.R
 import ge.etsiramua.messangerApp.signUp.SignUpActivity
 
@@ -14,6 +15,8 @@ class SignInActivity : AppCompatActivity() {
 
     private lateinit var signInButton: Button
     private lateinit var signUpButton: Button
+
+    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,8 +33,8 @@ class SignInActivity : AppCompatActivity() {
     }
 
     private fun signIn() {
-        nickname = findViewById<EditText>(R.id.editTextNickname)
-        password = findViewById<EditText>(R.id.editTextNickname)
+        nickname = findViewById(R.id.signInNickname)
+        password = findViewById(R.id.signInPassword)
 
         if (nickname.text.isEmpty()) {
             println("nickname error message")
@@ -42,5 +45,12 @@ class SignInActivity : AppCompatActivity() {
         }
 
         // sign in logic ...
+        auth.signInWithEmailAndPassword(nickname.text.toString(), password.text.toString()).addOnCompleteListener {
+            if (it.isSuccessful) {
+                println("USER SIGNED IN")
+            }
+        }
+
+
     }
 }
