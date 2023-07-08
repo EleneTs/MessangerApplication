@@ -17,7 +17,7 @@
 
     <EditText
         android:id="@+id/signInNickname"
-        android:layout_width="200dp"
+        android:layout_width="250dp"
         android:layout_height="50dp"
         android:layout_marginTop="25dp"
         android:ems="10"
@@ -32,7 +32,7 @@
 
     <EditText
         android:id="@+id/signInPassword"
-        android:layout_width="200dp"
+        android:layout_width="250dp"
         android:layout_height="50dp"
         android:layout_marginTop="25dp"
         android:ems="10"

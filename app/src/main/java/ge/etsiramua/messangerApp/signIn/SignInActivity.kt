@@ -1,10 +1,13 @@
 package ge.etsiramua.messangerApp.signIn
 
+import android.app.Application
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
 import ge.etsiramua.messangerApp.R
 import ge.etsiramua.messangerApp.signUp.SignUpActivity
@@ -15,6 +18,8 @@ class SignInActivity : AppCompatActivity() {
 
     private lateinit var signInButton: Button
     private lateinit var signUpButton: Button
+
+    private val EMAIL_SUFIX = "@messenger.com"
 
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
 
@@ -39,18 +44,35 @@ class SignInActivity : AppCompatActivity() {
         if (nickname.text.isEmpty()) {
             println("nickname error message")
         }
+        val email = formatNickname(nickname.text.toString())
 
         if (password.text.isEmpty()) {
             println("nickname error message")
         }
 
         // sign in logic ...
-        auth.signInWithEmailAndPassword(nickname.text.toString(), password.text.toString()).addOnCompleteListener {
+        auth.signInWithEmailAndPassword(email, password.text.toString()).addOnCompleteListener {
             if (it.isSuccessful) {
                 println("USER SIGNED IN")
             }
         }
+    }
 
-
+    private fun formatNickname(nickname: String): String {
+        return "$nickname$EMAIL_SUFIX"
     }
 }
+
+class ViewModelFactory(var application: Application) : ViewModelProvider.Factory {
+
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(SignInViewModel::class.java)) {
+            return SignInViewModel(SignInRepository())
+             as T
+        }
+        throw IllegalArgumentException("ViewModel class not detected")
+    }
+
+
+}
+
