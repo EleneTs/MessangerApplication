@@ -1,11 +1,13 @@
 package ge.etsiramua.messangerApp.signUp
 
 import android.annotation.SuppressLint
+import android.app.Application
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
 import ge.etsiramua.messangerApp.R
 
@@ -16,9 +18,10 @@ class SignUpActivity : AppCompatActivity() {
     private lateinit var job: EditText
     private lateinit var signUpButton: Button
 
-    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
 
-    private val EMAIL_SUFIX = "@messenger.com"
+    val signUpViewModel: SignUpViewModel by lazy {
+        ViewModelProvider(this, SignUpViewModelsFactory(application)).get(SignUpViewModel::class.java)
+    }
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +42,6 @@ class SignUpActivity : AppCompatActivity() {
         if (nickname.text.isEmpty()) {
             println("nickname error message")
         }
-        val email = formatNickname(nickname.text.toString())
 
         if (password.text.isEmpty()) {
             println("nickname error message")
@@ -50,19 +52,15 @@ class SignUpActivity : AppCompatActivity() {
         }
 
         // sign up logic ...
-
-        auth.createUserWithEmailAndPassword(email,password.text.toString()).addOnCompleteListener {
-            if (it.isSuccessful) {
-                println("ADDED USER")
-            } else {
-
-            }
-
-        }
-
+        signUpViewModel.register(nickname.text.toString(),password.text.toString(), job.text.toString())
     }
+}
 
-    private fun formatNickname(nickname: String): String {
-        return "$nickname$EMAIL_SUFIX"
+class SignUpViewModelsFactory(var application: Application) : ViewModelProvider.Factory {
+    override fun <T : androidx.lifecycle.ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(SignUpViewModel::class.java)) {
+            return SignUpViewModel(SignUpRepository()) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

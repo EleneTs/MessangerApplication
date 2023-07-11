@@ -8,9 +8,9 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.google.firebase.auth.FirebaseAuth
 import ge.etsiramua.messangerApp.R
 import ge.etsiramua.messangerApp.signUp.SignUpActivity
+import ge.etsiramua.messangerApp.signUp.SignUpViewModel
 
 class SignInActivity : AppCompatActivity() {
     private lateinit var nickname: EditText
@@ -19,9 +19,9 @@ class SignInActivity : AppCompatActivity() {
     private lateinit var signInButton: Button
     private lateinit var signUpButton: Button
 
-    private val EMAIL_SUFIX = "@messenger.com"
-
-    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
+    val signInViewModel: SignInViewModel by lazy {
+        ViewModelProvider(this, SignInViewModelsFactory(application)).get(SignInViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,35 +44,20 @@ class SignInActivity : AppCompatActivity() {
         if (nickname.text.isEmpty()) {
             println("nickname error message")
         }
-        val email = formatNickname(nickname.text.toString())
 
         if (password.text.isEmpty()) {
             println("nickname error message")
         }
-
         // sign in logic ...
-        auth.signInWithEmailAndPassword(email, password.text.toString()).addOnCompleteListener {
-            if (it.isSuccessful) {
-                println("USER SIGNED IN")
-            }
-        }
-    }
-
-    private fun formatNickname(nickname: String): String {
-        return "$nickname$EMAIL_SUFIX"
+        signInViewModel.signIn(nickname.text.toString(), password.text.toString())
     }
 }
 
-class ViewModelFactory(var application: Application) : ViewModelProvider.Factory {
-
+class SignInViewModelsFactory(var application: Application) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(SignInViewModel::class.java)) {
-            return SignInViewModel(SignInRepository())
-             as T
+            return SignInViewModel(SignInRepository()) as T
         }
-        throw IllegalArgumentException("ViewModel class not detected")
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
-
-
 }
-
