@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "574476723905",
+    "project_id": "messangerapp-8667c",
+    "storage_bucket": "messangerapp-8667c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:574476723905:android:173ab636bdfcc9c2445640",
+        "android_client_info": {
+          "package_name": "ge.etsiramua.messangerApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "574476723905-chpe4m4jn85edf44f9pi9s1vu8nsev1u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuWBLu1omWbmGYBJkNNoYYgZuIDaihGp4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "574476723905-chpe4m4jn85edf44f9pi9s1vu8nsev1u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
