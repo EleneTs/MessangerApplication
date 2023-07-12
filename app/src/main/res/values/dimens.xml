@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="home_icon_height">37dp</dimen>
+    <dimen name="home_icon_width">37dp</dimen>
+    <dimen name="settings_icon_height">22dp</dimen>
+    <dimen name="settings_icon_width">22dp</dimen>
+    <dimen name="zero_size">0dp</dimen>
+    <dimen name="parent_width_percent">0.4</dimen>
+</resources>
