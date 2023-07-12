@@ -1,6 +1,7 @@
 package ge.etsiramua.messangerApp.signIn
 
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 
 class SignInRepository {
 
@@ -8,11 +9,15 @@ class SignInRepository {
 
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
 
-    fun signIn(nickname: String, password: String) {
+    fun signIn(nickname: String, password: String, callback: (FirebaseUser?, Exception?) -> Unit) {
         val email = formatNickname(nickname)
-        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
-            if (it.isSuccessful) {
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
                 println("USER SIGNED IN")
+                callback(auth.currentUser, null)
+            } else {
+                val exception = task.exception
+                callback(null, exception)
             }
         }
     }
