@@ -18,6 +18,9 @@
             android:name=".signUp.SignUpActivity"
             android:exported="false" />
         <activity
+            android:name=".user.ProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Messanger App</string>
     <string name="description">Plus button</string>
+    <string name="enter_your_nickname">Enter your nickname</string>
+    <string name="enter_your_password">Enter your password</string>
+    <string name="update">update</string>
+    <string name="sign_out_button_text">SIGN OUT</string>
 </resources>
