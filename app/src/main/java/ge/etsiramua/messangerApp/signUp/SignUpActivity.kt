@@ -2,13 +2,14 @@ package ge.etsiramua.messangerApp.signUp
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import ge.etsiramua.messangerApp.MainActivity
 import ge.etsiramua.messangerApp.R
 
 class SignUpActivity : AppCompatActivity() {
@@ -31,7 +32,6 @@ class SignUpActivity : AppCompatActivity() {
         findViewById<Button>(R.id.signUpButton).setOnClickListener {
             signUpNewUser()
         }
-
     }
 
     private fun signUpNewUser() {
@@ -41,18 +41,34 @@ class SignUpActivity : AppCompatActivity() {
 
         if (nickname.text.isEmpty()) {
             println("nickname error message")
+            return
         }
 
         if (password.text.isEmpty()) {
-            println("nickname error message")
+            println("password error message")
+            return
         }
 
         if (job.text.isEmpty()) {
             println("job error message")
+            return
         }
 
         // sign up logic ...
-        signUpViewModel.register(nickname.text.toString(),password.text.toString(), job.text.toString())
+        signUpViewModel.register(nickname.text.toString(), password.text.toString(), job.text.toString()) { user, exception ->
+            if (user != null) {
+                openHomePage(user)
+                println("User created successfully")
+            } else {
+                println("Failed to create user: ${exception?.message}")
+            }
+        }
+    }
+
+    private fun openHomePage(user: FirebaseUser) {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("currentUser", user)
+        startActivity(intent)
     }
 }
 

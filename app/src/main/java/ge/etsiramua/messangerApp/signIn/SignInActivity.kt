@@ -2,15 +2,16 @@ package ge.etsiramua.messangerApp.signIn
 
 import android.app.Application
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.auth.FirebaseUser
+import ge.etsiramua.messangerApp.MainActivity
 import ge.etsiramua.messangerApp.R
 import ge.etsiramua.messangerApp.signUp.SignUpActivity
-import ge.etsiramua.messangerApp.signUp.SignUpViewModel
 
 class SignInActivity : AppCompatActivity() {
     private lateinit var nickname: EditText
@@ -49,7 +50,20 @@ class SignInActivity : AppCompatActivity() {
             println("nickname error message")
         }
         // sign in logic ...
-        signInViewModel.signIn(nickname.text.toString(), password.text.toString())
+        signInViewModel.signIn(nickname.text.toString(), password.text.toString())  { user, exception ->
+            if (user != null) {
+                openHomePage(user)
+                println("User created successfully")
+            } else {
+                println("Failed to create user: ${exception?.message}")
+            }
+        }
+    }
+
+    private fun openHomePage(user: FirebaseUser) {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("currentUser", user)
+        startActivity(intent)
     }
 }
 
