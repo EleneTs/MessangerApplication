@@ -9,7 +9,7 @@ class SignInRepository {
 
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
 
-    fun signIn(nickname: String, password: String, callback: (FirebaseUser?, Exception?) -> Unit) {
+    fun signIn(nickname: String, password: String,  callback: (FirebaseUser?, Exception?) -> Unit) {
         val email = formatNickname(nickname)
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
