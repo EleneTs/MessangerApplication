@@ -30,7 +30,7 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var homeButton: ImageView
     private lateinit var settingsButton: ImageView
     private lateinit var profilePhotoImageView: CircularImageView
-    
+
     private var selectedImageUri: Uri? = null
     private var retrievedUser: User? = null
     private val userViewModel: UserViewModel by lazy {
