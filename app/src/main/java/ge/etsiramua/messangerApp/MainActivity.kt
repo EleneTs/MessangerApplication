@@ -1,15 +1,25 @@
 package ge.etsiramua.messangerApp
 
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
+import androidx.annotation.RequiresApi
 import androidx.core.content.IntentCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseUser
+import ge.etsiramua.messangerApp.model.Message
+import ge.etsiramua.messangerApp.model.User
 import ge.etsiramua.messangerApp.signIn.SignInActivity
 import ge.etsiramua.messangerApp.user.ProfileActivity
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,10 +43,42 @@ class MainActivity : AppCompatActivity() {
             FirebaseUser::class.java
         )
 
+        if (user != null) {
+            setUpCurrentChats(user)
+        }
+
         if (user == null) {
             openSignInPage()
         }
+
         return user
+    }
+
+    private fun setUpCurrentChats(user: FirebaseUser) {
+        val recyclerView: RecyclerView = findViewById(R.id.lastConversations)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        val chatList = getDummyChatList() // Replace this with your actual data source
+        val adapter = ChatOverviewAdapter(chatList)
+        recyclerView.adapter = adapter
+
+
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun getDummyChatList(): List<Message> {
+        val dummyList = ArrayList<Message>()
+        dummyList.add(Message(from = "Michael Scott", text = "That's What She Said", date = LocalDateTime.now().minusMinutes(5)))
+        dummyList.add(Message(from = "Elene Elene", text = "Whats uup", date = LocalDateTime.now().minusHours(2)))
+        dummyList.add(Message(from = "Nika Nika", text = "Ok lets hang out", date = LocalDateTime.now().minusHours(3)))
+        dummyList.add(Message(from = "Nika Nika", text = "Ok lets hang out", date = LocalDateTime.now().minusHours(3)))
+        dummyList.add(Message(from = "Nika Nika", text = "Ok lets hang out", date = LocalDateTime.now().minusHours(3)))
+        dummyList.add(Message(from = "Nika Nika", text = "Ok lets hang out", date = LocalDateTime.now().minusHours(3)))
+        dummyList.add(Message(from = "Nika Nika", text = "Ok lets hang out", date = LocalDateTime.now().minusDays(3)))
+
+        // Add more dummy chat items here
+
+        return dummyList
     }
 
     private fun initViews() {
