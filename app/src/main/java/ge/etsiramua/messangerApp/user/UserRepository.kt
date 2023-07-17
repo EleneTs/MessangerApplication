@@ -48,7 +48,6 @@ class UserRepository {
         })
     }
 
-
     fun updateUser(user: User) {
         val firebaseUser = FirebaseAuth.getInstance().currentUser
 
@@ -59,6 +58,7 @@ class UserRepository {
                 ?.addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         val userReference = usersReference.child(firebaseUser.uid)
+                        user.id = firebaseUser.uid
                         userReference.setValue(user)
                     } else {
                         print("User was not updated")

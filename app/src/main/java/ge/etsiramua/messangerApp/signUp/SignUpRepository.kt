@@ -21,7 +21,7 @@ class SignUpRepository {
         val email = formatNickname(nickname)
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                val newUser = User(nickname = nickname, job = job)
+                val newUser = User(nickname = nickname, job = job, id = firebaseAuth.currentUser?.uid!!)
                 users.child(firebaseAuth.currentUser?.uid!!).setValue(newUser)
                 callback(firebaseAuth.currentUser, null)
             } else {

@@ -14,6 +14,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseUser
 import ge.etsiramua.messangerApp.model.Message
 import ge.etsiramua.messangerApp.model.User
+import ge.etsiramua.messangerApp.search.SearchActivity
 import ge.etsiramua.messangerApp.signIn.SignInActivity
 import ge.etsiramua.messangerApp.user.ProfileActivity
 import java.time.LocalDate
@@ -35,6 +36,9 @@ class MainActivity : AppCompatActivity() {
 
         val user = getUser()
         addListeners(user)
+
+//        val intent = Intent(this, SearchActivity::class.java)
+//        startActivity(intent)
     }
 
     private fun getUser(): FirebaseUser? {
