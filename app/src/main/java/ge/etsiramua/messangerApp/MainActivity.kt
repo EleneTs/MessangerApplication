@@ -18,6 +18,7 @@ import ge.etsiramua.messangerApp.chat.ChatViewModel
 import ge.etsiramua.messangerApp.chat.ChatViewModelFactory
 import ge.etsiramua.messangerApp.model.Message
 import ge.etsiramua.messangerApp.model.User
+import ge.etsiramua.messangerApp.search.SearchActivity
 import ge.etsiramua.messangerApp.signIn.SignInActivity
 import ge.etsiramua.messangerApp.signUp.SignUpViewModel
 import ge.etsiramua.messangerApp.signUp.SignUpViewModelsFactory
