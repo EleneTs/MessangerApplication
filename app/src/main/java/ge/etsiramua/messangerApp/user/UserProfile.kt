@@ -101,7 +101,7 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun displayUser(user: FirebaseUser?) {
         if (user != null) {
-            userViewModel.getUser(user) { user ->
+            userViewModel.getUser(user.uid) { user ->
                 retrievedUser = user
                 if (retrievedUser != null) {
                     nicknameEditText.setText(retrievedUser!!.nickname)

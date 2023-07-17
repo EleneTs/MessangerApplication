@@ -2,12 +2,15 @@ package ge.etsiramua.messangerApp.user
 
 import android.net.Uri
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import ge.etsiramua.messangerApp.model.User
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withContext
+import kotlin.coroutines.resume
 
 class UserRepository {
     private val EMAIL_SUFIX = "@messenger.com"
@@ -18,22 +21,59 @@ class UserRepository {
     private var storageReference = firebaseStorage.reference
 
 
-    fun getUser(firebaseUser: FirebaseUser, callback: (User?) -> Unit) {
-        val userReference = usersReference.child(firebaseUser.uid)
+//    fun getUser(firebaseUser: FirebaseUser, callback: (User?) -> Unit) {
+//        val userReference = usersReference.child(firebaseUser.uid)
+//
+//        userReference.addListenerForSingleValueEvent(object : ValueEventListener {
+//            override fun onDataChange(dataSnapshot: DataSnapshot) {
+//                val user = dataSnapshot.getValue(User::class.java)
+//                if (user != null) {
+//                    val profileImageRef = storageReference.child("profile_images/profile_image_${firebaseUser.uid}")
+//                    profileImageRef.downloadUrl
+//                        .addOnSuccessListener { uri ->
+//                            print("Fetching image failed")
+//                            user.profileImage = uri
+//                            callback(user)
+//                        }
+//                        .addOnFailureListener { exception ->
+//                            print("Fetching image failed")
+//                            user.profileImage = null
+//                            callback(user)
+//                        }
+//                } else {
+//                    callback(null)
+//                }
+//            }
+//
+//            override fun onCancelled(databaseError: DatabaseError) {
+//                callback(null)
+//            }
+//        })
+//    }
+
+    suspend fun getUserWithCoroutine(userId: String): User? = withContext(Dispatchers.IO) {
+        suspendCancellableCoroutine { continuation ->
+            getUser(userId) { user ->
+                continuation.resume(user)
+            }
+        }
+    }
+    fun getUser(firebaseUserId: String, callback: (User?) -> Unit) {
+        val userReference = usersReference.child(firebaseUserId)
 
         userReference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val user = dataSnapshot.getValue(User::class.java)
-                if (user != null) {
-                    val profileImageRef = storageReference.child("profile_images/profile_image_${firebaseUser.uid}")
+                if (user != null ) {
+                    val profileImageRef = storageReference.child("profile_images/profile_image_${firebaseUserId}")
                     profileImageRef.downloadUrl
                         .addOnSuccessListener { uri ->
-                            print("Fetching image failed")
+                            println("Fetching image successfully")
                             user.profileImage = uri
                             callback(user)
                         }
                         .addOnFailureListener { exception ->
-                            print("Fetching image failed")
+                            println("Fetching image failed")
                             user.profileImage = null
                             callback(user)
                         }
