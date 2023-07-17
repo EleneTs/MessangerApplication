@@ -1,6 +1,5 @@
 package ge.etsiramua.messangerApp
 
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -17,17 +16,11 @@ import com.google.firebase.auth.FirebaseUser
 import ge.etsiramua.messangerApp.chat.ChatViewModel
 import ge.etsiramua.messangerApp.chat.ChatViewModelFactory
 import ge.etsiramua.messangerApp.model.Message
-import ge.etsiramua.messangerApp.model.User
 import ge.etsiramua.messangerApp.signIn.SignInActivity
-import ge.etsiramua.messangerApp.signUp.SignUpViewModel
-import ge.etsiramua.messangerApp.signUp.SignUpViewModelsFactory
 import ge.etsiramua.messangerApp.user.ProfileActivity
 import ge.etsiramua.messangerApp.user.UserViewModel
 import ge.etsiramua.messangerApp.user.UserViewModelFactory
-import kotlinx.coroutines.runBlocking
-import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.ZoneOffset
 import java.util.*
 import kotlin.collections.ArrayList
 

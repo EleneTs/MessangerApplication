@@ -2,14 +2,8 @@ package ge.etsiramua.messangerApp.chat
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.ViewModelProvider
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import com.google.firebase.storage.FirebaseStorage
 import ge.etsiramua.messangerApp.model.Message
-import ge.etsiramua.messangerApp.model.User
-import ge.etsiramua.messangerApp.user.UserViewModel
-import ge.etsiramua.messangerApp.user.UserViewModelFactory
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
@@ -17,10 +11,6 @@ class ChatRepository {
 
     private val messagesReferences: DatabaseReference =
         FirebaseDatabase.getInstance().getReference("messages")
-
-
-    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
-
 
     fun getAllLastMessages(userId: String, onComplete: (List<Message>) -> Unit) {
         val query = messagesReferences.orderByChild("timestamp")
@@ -98,9 +88,6 @@ class ChatRepository {
             text = messageText,
             timestamp = date.toTimestamp()
         )
-//        var dateString = date.toString().replace("-", "")
-//        dateString = dateString.replace(":", "")
-//        dateString = dateString.replace(".", "")
 
         val uniqueId = senderId + receiverId + message.timestamp
         messagesReferences.child(uniqueId).setValue(message)

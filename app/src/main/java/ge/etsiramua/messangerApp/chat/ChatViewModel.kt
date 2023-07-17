@@ -13,23 +13,6 @@ class ChatViewModel(val repository: ChatRepository, val userRepository: UserRepo
 
     fun getAllLastMessages(userId: String, onComplete: (List<Message>?) -> Unit) {
         repository.getAllLastMessages(userId) { messages ->
-//            for (message in messages) {
-//                var senderId = message.senderId
-//                if (userId == senderId) {
-//                    senderId = message.receiverId
-//                }
-//                if (senderId != null) {
-//                    userRepository.getUser(senderId) { currUser ->
-//
-//                        if (currUser!!.profileImage != null) {
-//                            message.pictureUri = currUser.profileImage
-//                        }
-//                        message.senderName = currUser.nickname
-//                        println(currUser.nickname)
-//                        onComplete(messages)
-//                    }
-//                }
-//            }
             onComplete(messages)
         }
     }
