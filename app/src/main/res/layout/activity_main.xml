@@ -5,7 +5,7 @@
     android:id="@+id/linearLayout4"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <include layout="@layout/bottom_bar" />
+
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinator_layout"
@@ -70,16 +70,19 @@
             android:focusable="true"
             android:nestedScrollingEnabled="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            app:layout_constraintTop_toBottomOf="@id/coordinator_layout">
+            app:layout_constraintTop_toBottomOf="@id/coordinator_layout"
+            app:layout_constraintBottom_toTopOf="@layout/bottom_bar">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/lastConversations"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
         </ScrollView>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <include layout="@layout/bottom_bar" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
