@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity(), ChatOverviewAdapter.OnItemClickListene
 
         val chatList = getChatList { messages ->
             messagesList = messages!!
-            val adapter = messages?.let { ChatOverviewAdapter(it, this) }
+            val adapter = messages?.let { ChatOverviewAdapter(user.uid, it, this) }
             recyclerView.adapter = adapter
         }
     }
@@ -99,6 +99,7 @@ class MainActivity : AppCompatActivity(), ChatOverviewAdapter.OnItemClickListene
                 val messages = lastMessages.sortedByDescending { it.timestamp }
                 messagesList = messages
                 onComplete(messages)
+
             }
         }
     }

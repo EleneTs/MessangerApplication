@@ -14,6 +14,7 @@ import java.time.*
 import java.time.format.DateTimeFormatter
 
 class ChatOverviewAdapter(
+    private val currUser: String,
     private val chatList: List<Message>,
     private val listener: OnItemClickListener
 ) :
@@ -35,7 +36,12 @@ class ChatOverviewAdapter(
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
         val chatItem = chatList[position]
-        holder.textViewSender.text = chatItem.senderName
+        if (currUser == chatItem.senderId) {
+            holder.textViewSender.text = chatItem.receiverName
+        } else {
+            holder.textViewSender.text = chatItem.senderName
+        }
+
         holder.textViewLastMessage.text = chatItem.text
         val date = chatItem.timestamp?.let { calculateDate(it) }
         holder.sendDate.text = date
