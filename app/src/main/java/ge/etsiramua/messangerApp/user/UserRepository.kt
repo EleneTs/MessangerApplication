@@ -20,44 +20,6 @@ class UserRepository {
     private var firebaseStorage = FirebaseStorage.getInstance()
     private var storageReference = firebaseStorage.reference
 
-
-//    fun getUser(firebaseUser: FirebaseUser, callback: (User?) -> Unit) {
-//        val userReference = usersReference.child(firebaseUser.uid)
-//
-//        userReference.addListenerForSingleValueEvent(object : ValueEventListener {
-//            override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                val user = dataSnapshot.getValue(User::class.java)
-//                if (user != null) {
-//                    val profileImageRef = storageReference.child("profile_images/profile_image_${firebaseUser.uid}")
-//                    profileImageRef.downloadUrl
-//                        .addOnSuccessListener { uri ->
-//                            print("Fetching image failed")
-//                            user.profileImage = uri
-//                            callback(user)
-//                        }
-//                        .addOnFailureListener { exception ->
-//                            print("Fetching image failed")
-//                            user.profileImage = null
-//                            callback(user)
-//                        }
-//                } else {
-//                    callback(null)
-//                }
-//            }
-//
-//            override fun onCancelled(databaseError: DatabaseError) {
-//                callback(null)
-//            }
-//        })
-//    }
-
-    suspend fun getUserWithCoroutine(userId: String): User? = withContext(Dispatchers.IO) {
-        suspendCancellableCoroutine { continuation ->
-            getUser(userId) { user ->
-                continuation.resume(user)
-            }
-        }
-    }
     fun getUser(firebaseUserId: String, callback: (User?) -> Unit) {
         val userReference = usersReference.child(firebaseUserId)
 

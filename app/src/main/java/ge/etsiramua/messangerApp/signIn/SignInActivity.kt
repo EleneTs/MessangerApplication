@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseUser
-import ge.etsiramua.messangerApp.MainActivity
+import ge.etsiramua.messangerApp.main.MainActivity
 import ge.etsiramua.messangerApp.R
 import ge.etsiramua.messangerApp.signUp.SignUpActivity
 

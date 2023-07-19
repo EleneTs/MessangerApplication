@@ -23,10 +23,13 @@
             android:name=".search.SearchActivity"
             android:exported="false" />
         <activity
+            android:name=".chat.ChatActivity"
+            android:exported="false" />
+        <activity
             android:name=".user.ProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

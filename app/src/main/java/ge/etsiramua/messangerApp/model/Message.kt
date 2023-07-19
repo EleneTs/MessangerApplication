@@ -1,9 +1,10 @@
 package ge.etsiramua.messangerApp.model
 
 import android.net.Uri
-import com.google.firebase.database.IgnoreExtraProperties
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
-@IgnoreExtraProperties
+@Parcelize
 data class Message(
     var id: String? = null,
     val senderId: String? = null,
@@ -13,5 +14,6 @@ data class Message(
     var senderPictureUri: Uri? = null,
     var receiverPictureUri: Uri? = null,
     var senderName: String? = null,
-    var receiverName: String? = null
-)
+    var receiverName: String? = null,
+    var senderJob: String? = null,
+): Parcelable

@@ -56,7 +56,6 @@ class ChatRepository {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                // Handle the error if necessary
             }
         })
     }
@@ -77,7 +76,6 @@ class ChatRepository {
                     }
 
                     override fun onCancelled(error: DatabaseError) {
-                        // Handle the error if necessary
                         onComplete(nicknamesMap)
                     }
                 })

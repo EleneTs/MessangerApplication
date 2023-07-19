@@ -16,7 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseUser
 import com.mikhaellopez.circularimageview.CircularImageView
-import ge.etsiramua.messangerApp.MainActivity
+import ge.etsiramua.messangerApp.main.MainActivity
 import ge.etsiramua.messangerApp.R
 import ge.etsiramua.messangerApp.model.User
 
@@ -119,14 +119,14 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun signOut() {
         userViewModel.signOut()
-        val mainActivity = Intent(this, MainActivity::class.java)
-        startActivity(mainActivity)
+        val chatActivity = Intent(this, MainActivity::class.java)
+        startActivity(chatActivity)
     }
 
     private fun redirectToHomepage(user: FirebaseUser?) {
-        val mainActivity = Intent(this, MainActivity::class.java)
-        mainActivity.putExtra("currentUser", user)
-        startActivity(mainActivity)
+        val chatActivity = Intent(this, MainActivity::class.java)
+        chatActivity.putExtra("currentUser", user)
+        startActivity(chatActivity)
     }
 }
 
