@@ -13,8 +13,15 @@ import ge.etsiramua.messangerApp.model.Message
 import java.time.*
 import java.time.format.DateTimeFormatter
 
-class ChatOverviewAdapter(private val chatList: List<Message>) :
-    RecyclerView.Adapter<ChatOverviewAdapter.ChatViewHolder>(){
+class ChatOverviewAdapter(
+    private val chatList: List<Message>,
+    private val listener: OnItemClickListener
+) :
+    RecyclerView.Adapter<ChatOverviewAdapter.ChatViewHolder>() {
+
+    interface OnItemClickListener {
+        fun onItemClick(position: Int)
+    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -36,6 +43,9 @@ class ChatOverviewAdapter(private val chatList: List<Message>) :
             Glide.with(holder.itemView.context)
                 .load(chatItem.senderPictureUri.toString())
                 .into(holder.senderPicture)
+        }
+        holder.itemView.setOnClickListener {
+            listener.onItemClick(position)
         }
     }
 

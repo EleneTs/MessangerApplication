@@ -1,6 +1,5 @@
 package ge.etsiramua.messangerApp
 
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -14,9 +13,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseUser
+import ge.etsiramua.messangerApp.chat.ChatActivity
 import ge.etsiramua.messangerApp.chat.ChatViewModel
 import ge.etsiramua.messangerApp.chat.ChatViewModelFactory
 import ge.etsiramua.messangerApp.model.Message
+import ge.etsiramua.messangerApp.search.SearchActivity
 import ge.etsiramua.messangerApp.signIn.SignInActivity
 import ge.etsiramua.messangerApp.user.ProfileActivity
 import ge.etsiramua.messangerApp.user.UserViewModel
@@ -25,12 +26,14 @@ import java.time.LocalDateTime
 import java.util.*
 import kotlin.collections.ArrayList
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ChatOverviewAdapter.OnItemClickListener  {
 
     private lateinit var bottomAppBar: BottomAppBar
     private lateinit var plusButton: FloatingActionButton
     private lateinit var homeButton: ImageView
     private lateinit var settingsButton: ImageView
+    private var messagesList: List<Message> = emptyList()
+
 
     private var user: FirebaseUser? = null
 
@@ -74,20 +77,10 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         val chatList = getChatList { messages ->
-            val adapter = messages?.let { ChatOverviewAdapter(it) }
+            messagesList = messages!!
+            val adapter = messages?.let { ChatOverviewAdapter(it, this) }
             recyclerView.adapter = adapter
-
-//            // update user name ...
-//            if (messages != null) {
-//                updateSenderUserInfo(messages) { updatedMessages ->
-//                    val adapter = updatedMessages?.let { ChatOverviewAdapter(it) }
-//                    recyclerView.adapter = adapter
-//                }
-//
-//            }
-
         }
-
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -102,7 +95,7 @@ class MainActivity : AppCompatActivity() {
         chatViewModel.getAllLastMessages(user!!.uid) { lastMessages ->
             if (lastMessages != null) {
                 val messages = lastMessages.sortedByDescending { it.timestamp }
-
+                messagesList = messages
                 onComplete(messages)
             }
         }
@@ -124,8 +117,8 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+        messagesList - messages
         onComplete(updatedMessages)
-
     }
 
     private fun initViews() {
@@ -137,7 +130,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun addListeners(user: FirebaseUser?) {
         plusButton.setOnClickListener {
-
+            openSearchPage();
         }
 
         homeButton.setOnClickListener {
@@ -151,7 +144,6 @@ class MainActivity : AppCompatActivity() {
             )
 
             if (currentUser != null) {
-                print(currentUser)
                 val profileActivity = Intent(this, ProfileActivity::class.java)
                 profileActivity.putExtra("currentUser", user)
                 startActivity(profileActivity)
@@ -162,5 +154,22 @@ class MainActivity : AppCompatActivity() {
     private fun openSignInPage() {
         val intent = Intent(this, SignInActivity::class.java)
         startActivity(intent)
+    }
+
+    private fun openSearchPage() {
+        val intent = Intent(this, SearchActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun openChatPage() {
+        val intent = Intent(this, ChatActivity::class.java)
+        intent.putExtra("currentUser", user)
+        startActivity(intent)
+    }
+
+    override fun onItemClick(position: Int) {
+        print(23456)
+        print(messagesList)
+        print(messagesList[position])
     }
 }

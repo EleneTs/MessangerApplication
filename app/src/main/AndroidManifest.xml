@@ -23,6 +23,9 @@
             android:name=".search.SearchActivity"
             android:exported="false" />
         <activity
+            android:name=".chat.ChatActivity"
+            android:exported="false" />
+        <activity
             android:name=".user.ProfileActivity"
             android:exported="false" />
         <activity
