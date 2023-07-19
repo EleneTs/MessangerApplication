@@ -74,17 +74,10 @@ class SearchActivity : AppCompatActivity() {
     private fun displaySearchResults() {
         val recyclerView: RecyclerView = findViewById(R.id.friends)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        val chatList = createUsersList() // Replace this with your actual data source
-
-    }
-
-    fun createUsersList(): List<User> {
-        val userList = mutableListOf<User>()
-        userList.add(User("1", "John", "Engineer", Uri.parse("content://john_profile_image")))
-        userList.add(User("2", "Alice", "Doctor", Uri.parse("content://alice_profile_image")))
-        userList.add(User("3", "Bob", "Teacher", Uri.parse("content://bob_profile_image")))
-
-        return userList
+        searchViewModel.getUsersByPrefix("") { userList ->
+            val adapter = SearchAdapter(this, userList)
+            recyclerView.adapter = adapter
+        }
     }
 }
 
