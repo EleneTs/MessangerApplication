@@ -47,6 +47,15 @@ class ChatActivity : AppCompatActivity() {
                 positionTextView.text = user.job
             }
         }
+
+        displayChat(message.receiverId, message.senderId)
+
+    }
+
+    private fun displayChat(receiverId: String?, senderId: String?) {
+        chatViewModel.getConversation(receiverId!!, senderId!!) {messages ->
+            print(messages)
+        }
     }
 }
 

@@ -16,10 +16,9 @@ class ChatViewModel(val repository: ChatRepository, val userRepository: UserRepo
         }
     }
 
-    fun getConversation(receiverId: String, senderId: String) {
+    fun getConversation(receiverId: String, senderId: String,  onComplete: (List<Message>?) -> Unit) {
         repository.getConversation(receiverId, senderId) { messages ->
-            println("HERE ARE THE MESSAGES:")
-            println(messages)
+            onComplete(messages)
         }
     }
 
