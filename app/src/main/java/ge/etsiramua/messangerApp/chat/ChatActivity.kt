@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.IntentCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseUser
 import ge.etsiramua.messangerApp.R
 import ge.etsiramua.messangerApp.model.Message
@@ -16,6 +17,8 @@ class ChatActivity : AppCompatActivity() {
     private var user: FirebaseUser? = null
     private lateinit var nameTextView: TextView
     private lateinit var positionTextView: TextView
+
+    private lateinit var chatMessages: RecyclerView
 
 
     val chatViewModel: ChatViewModel by lazy {
@@ -28,6 +31,9 @@ class ChatActivity : AppCompatActivity() {
 
         nameTextView = findViewById(R.id.toolbarname)
         positionTextView = findViewById(R.id.toolbarposition)
+
+        chatMessages = findViewById(R.id.chat_conversations)
+
         displayUser()
     }
 
@@ -41,7 +47,12 @@ class ChatActivity : AppCompatActivity() {
             FirebaseUser::class.java
         )
 
-        chatViewModel.getUser(message!!.senderId!!) { user ->
+        var anotherUserId = message!!.senderId
+        if (message.senderId == user!!.uid) {
+            anotherUserId = message.receiverId
+        }
+
+        chatViewModel.getUser(anotherUserId!!) { user ->
             if (user != null) {
                 nameTextView.text = user.nickname
                 positionTextView.text = user.job
@@ -53,8 +64,9 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun displayChat(receiverId: String?, senderId: String?) {
-        chatViewModel.getConversation(receiverId!!, senderId!!) {messages ->
-            print(messages)
+        chatViewModel.getConversation(receiverId!!, senderId!!) { messages ->
+            val adapter = messages?.let { ChatMessagesAdapter(user!!.uid, it) }
+            chatMessages.adapter = adapter
         }
     }
 }
