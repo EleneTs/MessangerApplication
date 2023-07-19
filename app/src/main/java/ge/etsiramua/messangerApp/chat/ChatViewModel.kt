@@ -1,11 +1,10 @@
 package ge.etsiramua.messangerApp.chat
 
-import android.app.Application
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import ge.etsiramua.messangerApp.model.Message
+import ge.etsiramua.messangerApp.model.User
 import ge.etsiramua.messangerApp.user.UserRepository
 import java.time.LocalDateTime
 
@@ -19,7 +18,6 @@ class ChatViewModel(val repository: ChatRepository, val userRepository: UserRepo
 
     fun getConversation(receiverId: String, senderId: String) {
         repository.getConversation(receiverId, senderId) { messages ->
-            // Handle the list of messages here, they will be sorted by time ascending
             println("HERE ARE THE MESSAGES:")
             println(messages)
         }
@@ -30,14 +28,7 @@ class ChatViewModel(val repository: ChatRepository, val userRepository: UserRepo
         repository.sendMessage(receiverId, senderId, message, date)
     }
 
-
-}
-
-class ChatViewModelFactory(var application: Application) : ViewModelProvider.Factory {
-    override fun <T : androidx.lifecycle.ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(ChatViewModel::class.java)) {
-            return ChatViewModel(ChatRepository(), UserRepository()) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
+    fun getUser(firebaseUserId: String, callback: (User?) -> Unit) {
+        userRepository.getUser(firebaseUserId, callback)
     }
 }

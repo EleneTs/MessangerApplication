@@ -9,7 +9,7 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseUser
-import ge.etsiramua.messangerApp.MainActivity
+import ge.etsiramua.messangerApp.main.MainActivity
 import ge.etsiramua.messangerApp.R
 
 class SignUpActivity : AppCompatActivity() {

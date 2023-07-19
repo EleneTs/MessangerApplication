@@ -1,4 +1,4 @@
-package ge.etsiramua.messangerApp
+package ge.etsiramua.messangerApp.main
 
 import android.content.Intent
 import android.os.Build
@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseUser
+import ge.etsiramua.messangerApp.ChatOverviewAdapter
+import ge.etsiramua.messangerApp.R
 import ge.etsiramua.messangerApp.chat.ChatActivity
 import ge.etsiramua.messangerApp.chat.ChatViewModel
 import ge.etsiramua.messangerApp.chat.ChatViewModelFactory
@@ -26,15 +28,13 @@ import java.time.LocalDateTime
 import java.util.*
 import kotlin.collections.ArrayList
 
-class MainActivity : AppCompatActivity(), ChatOverviewAdapter.OnItemClickListener  {
+class MainActivity : AppCompatActivity(), ChatOverviewAdapter.OnItemClickListener {
 
     private lateinit var bottomAppBar: BottomAppBar
     private lateinit var plusButton: FloatingActionButton
     private lateinit var homeButton: ImageView
     private lateinit var settingsButton: ImageView
     private var messagesList: List<Message> = emptyList()
-
-
     private var user: FirebaseUser? = null
 
     val chatViewModel: ChatViewModel by lazy {
@@ -161,15 +161,14 @@ class MainActivity : AppCompatActivity(), ChatOverviewAdapter.OnItemClickListene
         startActivity(intent)
     }
 
-    private fun openChatPage() {
+    private fun openChatPage(message: Message) {
         val intent = Intent(this, ChatActivity::class.java)
         intent.putExtra("currentUser", user)
+        intent.putExtra("message", message)
         startActivity(intent)
     }
 
     override fun onItemClick(position: Int) {
-        print(23456)
-        print(messagesList)
-        print(messagesList[position])
+        openChatPage(messagesList[position])
     }
 }

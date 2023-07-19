@@ -82,5 +82,4 @@ class ChatOverviewAdapter(
         val sendDate: TextView = itemView.findViewById(R.id.last_message_date)
         val senderPicture: CircularImageView = itemView.findViewById(R.id.profile_picture)
     }
-
 }
