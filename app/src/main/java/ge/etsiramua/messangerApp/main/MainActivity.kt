@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity(), ChatOverviewAdapter.OnItemClickListene
 
         val chatList = getChatList { messages ->
             messagesList = messages!!
-            val adapter = messages?.let { ChatOverviewAdapter(it, this) }
+            val adapter = messages?.let { ChatOverviewAdapter(user.uid, it, this) }
             recyclerView.adapter = adapter
         }
     }
@@ -91,12 +91,15 @@ class MainActivity : AppCompatActivity(), ChatOverviewAdapter.OnItemClickListene
 
         chatViewModel.sendMessage(senderId = id1, receiverId = user!!.uid, message = "Message text 3 min ago.", date = LocalDateTime.now().minusMinutes(3))
         chatViewModel.sendMessage(senderId = id2, receiverId = user!!.uid, message = "Message text 1 min ago.", date = LocalDateTime.now().minusMinutes(1))
+        chatViewModel.sendMessage(senderId = user!!.uid, receiverId = id2, message = "Message text now.", date = LocalDateTime.now())
+
 
         chatViewModel.getAllLastMessages(user!!.uid) { lastMessages ->
             if (lastMessages != null) {
                 val messages = lastMessages.sortedByDescending { it.timestamp }
                 messagesList = messages
                 onComplete(messages)
+
             }
         }
     }

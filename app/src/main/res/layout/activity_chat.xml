@@ -96,7 +96,7 @@
             app:layout_constraintTop_toBottomOf="@id/coordinator_layout">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/lastConversations"
+                android:id="@+id/chat_conversations"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
