@@ -29,7 +29,7 @@
                     android:layout_height="40dp"
                     android:clickable="true"
                     android:onClick="onButtonClick"
-                    android:src="@drawable/back"
+                    android:src="@drawable/baseline_arrow_back_ios_24"
                     app:tint="@android:color/white" />
 
 
