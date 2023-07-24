@@ -61,7 +61,6 @@ class MainActivity : AppCompatActivity(), ChatOverviewAdapter.OnItemClickListene
 
         user = getUser()
         addListeners(user)
-
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

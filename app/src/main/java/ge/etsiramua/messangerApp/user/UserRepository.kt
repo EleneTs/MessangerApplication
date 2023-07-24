@@ -7,10 +7,6 @@ import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import ge.etsiramua.messangerApp.model.User
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlinx.coroutines.withContext
-import kotlin.coroutines.resume
 
 class UserRepository {
     private val EMAIL_SUFIX = "@messenger.com"

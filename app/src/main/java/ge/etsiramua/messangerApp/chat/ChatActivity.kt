@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -15,7 +14,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseUser
 import ge.etsiramua.messangerApp.R
-import ge.etsiramua.messangerApp.model.Message
 import ge.etsiramua.messangerApp.user.UserRepository
 import java.time.LocalDateTime
 

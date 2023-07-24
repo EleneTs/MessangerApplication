@@ -2,7 +2,6 @@ package ge.etsiramua.messangerApp.search
 
 import android.app.Application
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.text.Editable
@@ -11,17 +10,13 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.IntentCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import ge.etsiramua.messangerApp.ChatOverviewAdapter
 import ge.etsiramua.messangerApp.R
 import ge.etsiramua.messangerApp.chat.ChatActivity
-import ge.etsiramua.messangerApp.model.Message
 import ge.etsiramua.messangerApp.model.User
 
 
@@ -33,11 +28,8 @@ class SearchActivity : AppCompatActivity(), SearchAdapter.OnItemClickListener  {
     private lateinit var progressBar: ProgressBar
     private var usersList = emptyList<User>()
 
-//    private var user: FirebaseUser? = IntentCompat.getParcelableExtra(
-//        intent, "currentUser",
-//        FirebaseUser::class.java
-//    )
 
+    // TODO - ese wamogeba albat ar ari kai idea
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
 
 

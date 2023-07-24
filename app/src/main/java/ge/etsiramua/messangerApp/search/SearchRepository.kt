@@ -1,7 +1,6 @@
 package ge.etsiramua.messangerApp.search
 
 import com.google.android.gms.tasks.Tasks
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import ge.etsiramua.messangerApp.model.User
