@@ -89,10 +89,9 @@ class MainActivity : AppCompatActivity(), ChatOverviewAdapter.OnItemClickListene
         val id1 = "D7Ib8seNZXbdftKkBtkwPTqPCSF2"
         val id2 = "KUthvSYXxMfxn3TCukvtgsk2a8m2"
 
-        chatViewModel.sendMessage(senderId = id1, receiverId = user!!.uid, message = "Message text 3 min ago.", date = LocalDateTime.now().minusMinutes(3))
+        chatViewModel.sendMessage(senderId = id1, receiverId = user!!.uid, message = "Message text rggggggggg ggggggggggg ggggggggg gggggggg ggggggg gggggggg ggggggggg gggggg 3  min ago.", date = LocalDateTime.now().minusMinutes(3))
         chatViewModel.sendMessage(senderId = id2, receiverId = user!!.uid, message = "Message text 1 min ago.", date = LocalDateTime.now().minusMinutes(1))
-        chatViewModel.sendMessage(senderId = user!!.uid, receiverId = id2, message = "Message text now.", date = LocalDateTime.now())
-
+        chatViewModel.sendMessage(senderId = user!!.uid, receiverId = id2, message = "Message texdddd ddddddddddd ddddddddddd dddddddddddddd dddddd dddddddd ddddddddddd ddddddd ddddddddt now.", date = LocalDateTime.now())
 
         chatViewModel.getAllLastMessages(user!!.uid) { lastMessages ->
             if (lastMessages != null) {
