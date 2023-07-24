@@ -9,6 +9,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
+import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.IntentCompat
 import androidx.lifecycle.ViewModel
@@ -29,6 +30,7 @@ class SearchActivity : AppCompatActivity(), SearchAdapter.OnItemClickListener  {
     private val handler = Handler()
     private var debounceRunnable: Runnable? = null
     private lateinit var recyclerView: RecyclerView
+    private lateinit var progressBar: ProgressBar
     private var usersList = emptyList<User>()
 
 //    private var user: FirebaseUser? = IntentCompat.getParcelableExtra(
@@ -47,7 +49,14 @@ class SearchActivity : AppCompatActivity(), SearchAdapter.OnItemClickListener  {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
         val searchField = findViewById<EditText>(R.id.search_field)
+
         recyclerView = findViewById(R.id.friends)
+        progressBar = findViewById<ProgressBar>(R.id.searchProgressBar)
+
+
+        progressBar.visibility = View.VISIBLE
+        recyclerView.visibility = View.INVISIBLE
+
         recyclerView.layoutManager = LinearLayoutManager(this)
         displaySearchResults();
         search(searchField)
@@ -89,6 +98,9 @@ class SearchActivity : AppCompatActivity(), SearchAdapter.OnItemClickListener  {
                 val adapter = SearchAdapter(this, userList, this)
                 recyclerView.adapter = adapter
                 usersList = userList
+
+                progressBar.visibility = View.GONE
+                recyclerView.visibility = View.VISIBLE
             }
         }
     }
@@ -100,6 +112,9 @@ class SearchActivity : AppCompatActivity(), SearchAdapter.OnItemClickListener  {
             val adapter = SearchAdapter(this, userList, this)
             recyclerView.adapter = adapter
             usersList = userList
+
+            progressBar.visibility = View.GONE
+            recyclerView.visibility = View.VISIBLE
         }
     }
 

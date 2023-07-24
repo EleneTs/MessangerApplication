@@ -3,10 +3,12 @@ package ge.etsiramua.messangerApp.main
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.IntentCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,9 +27,7 @@ import ge.etsiramua.messangerApp.signIn.SignInActivity
 import ge.etsiramua.messangerApp.user.ProfileActivity
 import ge.etsiramua.messangerApp.user.UserViewModel
 import ge.etsiramua.messangerApp.user.UserViewModelFactory
-import java.time.LocalDateTime
 import java.util.*
-import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity(), ChatOverviewAdapter.OnItemClickListener {
 
@@ -35,21 +35,29 @@ class MainActivity : AppCompatActivity(), ChatOverviewAdapter.OnItemClickListene
     private lateinit var plusButton: FloatingActionButton
     private lateinit var homeButton: ImageView
     private lateinit var settingsButton: ImageView
+    private lateinit var progressBar: ProgressBar
+    private lateinit var recyclerView: RecyclerView
     private var messagesList: List<Message> = emptyList()
     private var user: FirebaseUser? = null
 
     val chatViewModel: ChatViewModel by lazy {
-        ViewModelProvider(this, ChatViewModelFactory(application)).get(ChatViewModel::class.java)
+        ViewModelProvider(this, ChatViewModelFactory(application))[ChatViewModel::class.java]
     }
 
     private val userViewModel: UserViewModel by lazy {
-        ViewModelProvider(this, UserViewModelFactory(application)).get(UserViewModel::class.java)
+        ViewModelProvider(this, UserViewModelFactory(application))[UserViewModel::class.java]
     }
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initViews()
+
+        progressBar = findViewById(R.id.progressBar)
+        recyclerView = findViewById(R.id.lastConversations)
+
+        progressBar.visibility = View.VISIBLE
+        recyclerView.visibility = View.INVISIBLE
 
         user = getUser()
         addListeners(user)
@@ -74,13 +82,15 @@ class MainActivity : AppCompatActivity(), ChatOverviewAdapter.OnItemClickListene
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setUpCurrentChats(user: FirebaseUser) {
-        val recyclerView: RecyclerView = findViewById(R.id.lastConversations)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         val chatList = getChatList { messages ->
             messagesList = messages!!
             val adapter = messages?.let { ChatOverviewAdapter(user.uid, it, this) }
             recyclerView.adapter = adapter
+
+            progressBar.visibility = View.GONE
+            recyclerView.visibility = View.VISIBLE
         }
     }
 
