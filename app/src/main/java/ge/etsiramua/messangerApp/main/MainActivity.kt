@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity(), ChatOverviewAdapter.OnItemClickListene
     private fun setUpCurrentChats(user: FirebaseUser) {
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        val chatList = getChatList { messages ->
+        getChatList { messages ->
             messagesList = messages!!
             val adapter = messages?.let { ChatOverviewAdapter(user.uid, it, this) }
             recyclerView.adapter = adapter
@@ -101,7 +101,6 @@ class MainActivity : AppCompatActivity(), ChatOverviewAdapter.OnItemClickListene
                 val messages = lastMessages.sortedByDescending { it.timestamp }
                 messagesList = messages
                 onComplete(messages)
-
             }
         }
     }

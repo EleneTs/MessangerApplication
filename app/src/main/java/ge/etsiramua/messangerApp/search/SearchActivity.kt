@@ -20,7 +20,7 @@ import ge.etsiramua.messangerApp.chat.ChatActivity
 import ge.etsiramua.messangerApp.model.User
 
 
-class SearchActivity : AppCompatActivity(), SearchAdapter.OnItemClickListener  {
+class SearchActivity : AppCompatActivity(), SearchAdapter.OnItemClickListener {
 
     private val handler = Handler()
     private var debounceRunnable: Runnable? = null
@@ -34,7 +34,10 @@ class SearchActivity : AppCompatActivity(), SearchAdapter.OnItemClickListener  {
 
 
     val searchViewModel: SearchViewModel by lazy {
-        ViewModelProvider(this, SearchViewModelsFactory(application)).get(SearchViewModel::class.java)
+        ViewModelProvider(
+            this,
+            SearchViewModelsFactory(application)
+        ).get(SearchViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -90,11 +93,14 @@ class SearchActivity : AppCompatActivity(), SearchAdapter.OnItemClickListener  {
                 val adapter = SearchAdapter(this, userList, this)
                 recyclerView.adapter = adapter
                 usersList = userList
-
-                progressBar.visibility = View.GONE
-                recyclerView.visibility = View.VISIBLE
             }
+        } else {
+            val adapter = SearchAdapter(this, emptyList(), this)
+            recyclerView.adapter = adapter
+            usersList = emptyList()
         }
+        progressBar.visibility = View.GONE
+        recyclerView.visibility = View.VISIBLE
     }
 
     private fun displaySearchResults() {
