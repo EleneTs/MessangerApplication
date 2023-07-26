@@ -4,7 +4,11 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.annotation.RequiresApi
@@ -39,6 +43,8 @@ class MainActivity : AppCompatActivity(), ChatOverviewAdapter.OnItemClickListene
     private lateinit var recyclerView: RecyclerView
     private var messagesList: List<Message> = emptyList()
     private var user: FirebaseUser? = null
+    private val handler = Handler()
+    private var debounceRunnable: Runnable? = null
 
     val chatViewModel: ChatViewModel by lazy {
         ViewModelProvider(this, ChatViewModelFactory(application))[ChatViewModel::class.java]
@@ -130,6 +136,8 @@ class MainActivity : AppCompatActivity(), ChatOverviewAdapter.OnItemClickListene
         plusButton = findViewById(R.id.plus_button)
         homeButton = findViewById(R.id.home_button)
         settingsButton = findViewById(R.id.settings_button)
+        val searchField = findViewById<EditText>(R.id.main_search_text)
+        search(searchField)
     }
 
     private fun addListeners(user: FirebaseUser?) {
@@ -183,5 +191,39 @@ class MainActivity : AppCompatActivity(), ChatOverviewAdapter.OnItemClickListene
 
     override fun onItemClick(position: Int) {
         openChatPage(messagesList[position])
+    }
+
+    private fun search(searchField: EditText) {
+        searchField.addTextChangedListener(object : TextWatcher {
+            private var searchFor = ""
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) =
+                Unit
+
+            override fun afterTextChanged(s: Editable?) = Unit
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val searchText = s.toString().trim()
+                if (searchText == searchFor) {
+                    return
+                }
+                searchFor = searchText
+                debounceRunnable?.let { handler.removeCallbacks(it) }
+                debounceRunnable = Runnable {
+                    val searchText = s?.toString() ?: ""
+                    println("User typed: $searchText")
+                    filterUsers(namePrefix = searchText)
+                }
+                handler.postDelayed(debounceRunnable!!, 1000)
+            }
+        })
+    }
+
+    private fun filterUsers(namePrefix: String) {
+        val filteredMessages = messagesList.filter { message ->
+            message.receiverName?.startsWith(namePrefix, ignoreCase = true) == true
+        }
+        val adapter = filteredMessages.let { user?.let { it1 -> ChatOverviewAdapter(it1.uid, it, this) } }
+        recyclerView.adapter = adapter
     }
 }
