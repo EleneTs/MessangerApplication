@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -16,9 +17,6 @@ import ge.etsiramua.messangerApp.signUp.SignUpActivity
 class SignInActivity : AppCompatActivity() {
     private lateinit var nickname: EditText
     private lateinit var password: EditText
-
-    private lateinit var signInButton: Button
-    private lateinit var signUpButton: Button
 
     val signInViewModel: SignInViewModel by lazy {
         ViewModelProvider(this, SignInViewModelsFactory(application)).get(SignInViewModel::class.java)
@@ -43,19 +41,20 @@ class SignInActivity : AppCompatActivity() {
         password = findViewById(R.id.signInPassword)
 
         if (nickname.text.isEmpty()) {
-            println("nickname error message")
+            Toast.makeText(this, "Please enter a nickname.", Toast.LENGTH_SHORT).show()
+            return
         }
 
         if (password.text.isEmpty()) {
-            println("nickname error message")
+            Toast.makeText(this, "Please enter a password.", Toast.LENGTH_SHORT).show()
+            return
         }
-        // sign in logic ...
+
         signInViewModel.signIn(nickname.text.toString(), password.text.toString())  { user, exception ->
             if (user != null) {
                 openHomePage(user)
-                println("User created successfully")
             } else {
-                println("Failed to create user: ${exception?.message}")
+                Toast.makeText(this, "User with these credentials doesn't exist.", Toast.LENGTH_SHORT).show()
             }
         }
     }

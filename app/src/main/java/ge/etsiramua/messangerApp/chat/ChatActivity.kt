@@ -82,7 +82,7 @@ class ChatActivity : AppCompatActivity() {
 
     private fun displayUser() {
 
-        chatViewModel.getUser(anotherUserId!!) { user ->
+        chatViewModel.getUser(anotherUserId!!, this) { user ->
             if (user != null) {
                 nameTextView.text = user.nickname
                 positionTextView.text = user.job
@@ -99,7 +99,7 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun displayChat(receiverId: String?, senderId: String?) {
-        chatViewModel.getConversation(receiverId!!, senderId!!) { messages ->
+        chatViewModel.getConversation(receiverId!!, senderId!!, this) { messages ->
             val adapter = messages?.let { ChatMessagesAdapter(user!!.uid, it) }
             chatMessages.adapter = adapter
 

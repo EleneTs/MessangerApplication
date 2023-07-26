@@ -19,7 +19,6 @@ import ge.etsiramua.messangerApp.R
 import ge.etsiramua.messangerApp.chat.ChatActivity
 import ge.etsiramua.messangerApp.model.User
 
-
 class SearchActivity : AppCompatActivity(), SearchAdapter.OnItemClickListener {
 
     private val handler = Handler()
@@ -28,10 +27,8 @@ class SearchActivity : AppCompatActivity(), SearchAdapter.OnItemClickListener {
     private lateinit var progressBar: ProgressBar
     private var usersList = emptyList<User>()
 
-
     // TODO - ese wamogeba albat ar ari kai idea
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
-
 
     val searchViewModel: SearchViewModel by lazy {
         ViewModelProvider(
@@ -47,7 +44,6 @@ class SearchActivity : AppCompatActivity(), SearchAdapter.OnItemClickListener {
 
         recyclerView = findViewById(R.id.friends)
         progressBar = findViewById<ProgressBar>(R.id.searchProgressBar)
-
 
         progressBar.visibility = View.VISIBLE
         recyclerView.visibility = View.INVISIBLE
@@ -89,7 +85,7 @@ class SearchActivity : AppCompatActivity(), SearchAdapter.OnItemClickListener {
 
     private fun fetchUsers(namePrefix: String) {
         if (namePrefix.length > 2) {
-            searchViewModel.getUsersByPrefix(namePrefix) { userList ->
+            searchViewModel.getUsersByPrefix(namePrefix, this) { userList ->
                 val adapter = SearchAdapter(this, userList, this)
                 recyclerView.adapter = adapter
                 usersList = userList
@@ -106,7 +102,7 @@ class SearchActivity : AppCompatActivity(), SearchAdapter.OnItemClickListener {
     private fun displaySearchResults() {
         val recyclerView: RecyclerView = findViewById(R.id.friends)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        searchViewModel.getUsersByPrefix("") { userList ->
+        searchViewModel.getUsersByPrefix("", this) { userList ->
             val adapter = SearchAdapter(this, userList, this)
             recyclerView.adapter = adapter
             usersList = userList

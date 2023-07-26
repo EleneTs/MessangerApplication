@@ -102,7 +102,7 @@ class MainActivity : AppCompatActivity(), ChatOverviewAdapter.OnItemClickListene
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getChatList(onComplete: (List<Message>?) -> Unit) {
 
-        chatViewModel.getAllLastMessages(user!!.uid) { lastMessages ->
+        chatViewModel.getAllLastMessages(user!!.uid, this) { lastMessages ->
             if (lastMessages != null) {
                 val messages = lastMessages.sortedByDescending { it.timestamp }
                 messagesList = messages
@@ -118,7 +118,7 @@ class MainActivity : AppCompatActivity(), ChatOverviewAdapter.OnItemClickListene
             if (message.senderId == user!!.uid) {
                 anotherUserId = message.receiverId
             }
-            val senderUser = userViewModel.getUser(anotherUserId!!) { sender ->
+            userViewModel.getUser(anotherUserId!!, this) { sender ->
                 if (sender != null) {
                     message.senderName = sender.nickname
                     message.senderPictureUri = sender.profileImage

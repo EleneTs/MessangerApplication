@@ -94,14 +94,14 @@ class ProfileActivity : AppCompatActivity() {
             nickname = newNickname,
             job = newCareer,
         )
-        userViewModel.updateUser(updatedUser)
-        selectedImageUri?.let { userViewModel.uploadImage(it) }
+        userViewModel.updateUser(updatedUser, this)
+        selectedImageUri?.let { userViewModel.uploadImage(it, this) }
 
     }
 
     private fun displayUser(user: FirebaseUser?) {
         if (user != null) {
-            userViewModel.getUser(user.uid) { user ->
+            userViewModel.getUser(user.uid, this) { user ->
                 retrievedUser = user
                 if (retrievedUser != null) {
                     nicknameEditText.setText(retrievedUser!!.nickname)

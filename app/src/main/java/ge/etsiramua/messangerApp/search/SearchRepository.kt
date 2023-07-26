@@ -1,5 +1,7 @@
 package ge.etsiramua.messangerApp.search
 
+import android.content.Context
+import android.widget.Toast
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
@@ -12,7 +14,7 @@ class SearchRepository {
     private var firebaseStorage = FirebaseStorage.getInstance()
     private var storageReference = firebaseStorage.reference
 
-    fun getUsersByPrefix(prefix: String, callback: (List<User>) -> Unit) {
+    fun getUsersByPrefix(prefix: String, context: Context,  callback: (List<User>) -> Unit) {
         val usersQuery: Query = usersReference.orderByChild("nickname")
             .startAt(prefix).endAt("$prefix\uf8ff")
 
@@ -35,7 +37,7 @@ class SearchRepository {
                             user.profileImage = uri
                         }
                         .addOnFailureListener { exception ->
-                            user.profileImage = null
+                            Toast.makeText(context, "Failed to fetch profile image for ${user.nickname}", Toast.LENGTH_SHORT).show()
                         }
                 }
 
@@ -45,7 +47,7 @@ class SearchRepository {
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                callback(emptyList())
+                Toast.makeText(context, "Failed to fetch users", Toast.LENGTH_SHORT).show()
             }
         })
     }

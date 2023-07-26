@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseUser
 import ge.etsiramua.messangerApp.main.MainActivity
@@ -17,8 +18,6 @@ class SignUpActivity : AppCompatActivity() {
     private lateinit var nickname: EditText
     private lateinit var password: EditText
     private lateinit var job: EditText
-    private lateinit var signUpButton: Button
-
 
     val signUpViewModel: SignUpViewModel by lazy {
         ViewModelProvider(this, SignUpViewModelsFactory(application)).get(SignUpViewModel::class.java)
@@ -40,27 +39,25 @@ class SignUpActivity : AppCompatActivity() {
         job = findViewById(R.id.editTextJob)
 
         if (nickname.text.isEmpty()) {
-            println("nickname error message")
+            Toast.makeText(this, "Please enter a nickname.", Toast.LENGTH_SHORT).show()
             return
         }
 
         if (password.text.isEmpty()) {
-            println("password error message")
+            Toast.makeText(this, "Please enter a password.", Toast.LENGTH_SHORT).show()
             return
         }
 
         if (job.text.isEmpty()) {
-            println("job error message")
+            Toast.makeText(this, "Please enter a job.", Toast.LENGTH_SHORT).show()
             return
         }
 
-        // sign up logic ...
         signUpViewModel.register(nickname.text.toString(), password.text.toString(), job.text.toString()) { user, exception ->
             if (user != null) {
                 openHomePage(user)
-                println("User created successfully")
             } else {
-                println("Failed to create user: ${exception?.message}")
+                Toast.makeText(this, "Failed to create user" + " " + exception.toString(), Toast.LENGTH_SHORT).show()
             }
         }
     }
