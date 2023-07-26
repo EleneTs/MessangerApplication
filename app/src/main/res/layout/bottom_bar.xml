@@ -31,7 +31,7 @@
                     android:layout_width="@dimen/home_icon_width"
                     android:layout_height="@dimen/home_icon_width"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/home"
+                    android:src="@drawable/baseline_home_24"
                     app:tint="@color/black" />
             </RelativeLayout>
 
@@ -48,7 +48,7 @@
                     android:layout_width="@dimen/settings_icon_width"
                     android:layout_height="@dimen/settings_icon_height"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/settings"
+                    android:src="@drawable/baseline_settings_24"
                     app:tint="@color/black" />
             </RelativeLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -59,9 +59,9 @@
         android:id="@+id/plus_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/purple_500"
+        android:backgroundTint="@color/blue"
         android:contentDescription="@string/description"
-        android:src="@drawable/plus"
+        android:src="@drawable/baseline_add_24"
         app:layout_anchor="@id/bottom_toolbar"
         app:tint="@android:color/white" />
 

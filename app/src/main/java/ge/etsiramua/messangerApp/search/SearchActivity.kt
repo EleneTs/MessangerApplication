@@ -1,26 +1,37 @@
 package ge.etsiramua.messangerApp.search
 
 import android.app.Application
-import android.net.Uri
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.widget.EditText
+import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import ge.etsiramua.messangerApp.R
+import ge.etsiramua.messangerApp.chat.ChatActivity
 import ge.etsiramua.messangerApp.model.User
 
 
-class SearchActivity : AppCompatActivity() {
+class SearchActivity : AppCompatActivity(), SearchAdapter.OnItemClickListener  {
 
     private val handler = Handler()
     private var debounceRunnable: Runnable? = null
     private lateinit var recyclerView: RecyclerView
+    private lateinit var progressBar: ProgressBar
+    private var usersList = emptyList<User>()
+
+
+    // TODO - ese wamogeba albat ar ari kai idea
+    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
+
 
     val searchViewModel: SearchViewModel by lazy {
         ViewModelProvider(this, SearchViewModelsFactory(application)).get(SearchViewModel::class.java)
@@ -30,10 +41,21 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
         val searchField = findViewById<EditText>(R.id.search_field)
+
         recyclerView = findViewById(R.id.friends)
+        progressBar = findViewById<ProgressBar>(R.id.searchProgressBar)
+
+
+        progressBar.visibility = View.VISIBLE
+        recyclerView.visibility = View.INVISIBLE
+
         recyclerView.layoutManager = LinearLayoutManager(this)
         displaySearchResults();
         search(searchField)
+    }
+
+    fun onBack(view: View) {
+        finish()
     }
 
     private fun search(searchField: EditText) {
@@ -65,8 +87,12 @@ class SearchActivity : AppCompatActivity() {
     private fun fetchUsers(namePrefix: String) {
         if (namePrefix.length > 2) {
             searchViewModel.getUsersByPrefix(namePrefix) { userList ->
-                val adapter = SearchAdapter(this, userList)
+                val adapter = SearchAdapter(this, userList, this)
                 recyclerView.adapter = adapter
+                usersList = userList
+
+                progressBar.visibility = View.GONE
+                recyclerView.visibility = View.VISIBLE
             }
         }
     }
@@ -75,9 +101,26 @@ class SearchActivity : AppCompatActivity() {
         val recyclerView: RecyclerView = findViewById(R.id.friends)
         recyclerView.layoutManager = LinearLayoutManager(this)
         searchViewModel.getUsersByPrefix("") { userList ->
-            val adapter = SearchAdapter(this, userList)
+            val adapter = SearchAdapter(this, userList, this)
             recyclerView.adapter = adapter
+            usersList = userList
+
+            progressBar.visibility = View.GONE
+            recyclerView.visibility = View.VISIBLE
         }
+    }
+
+    private fun openChatPage(userId: String) {
+        println("open chat page for id: $userId")
+        val intent = Intent(this, ChatActivity::class.java)
+        intent.putExtra("currentUser", auth.currentUser)
+        intent.putExtra("anotherUserId", userId)
+        startActivity(intent)
+    }
+
+    override fun onItemClick(position: Int) {
+        println("Opening chat for position $position")
+        usersList[position].id?.let { openChatPage(it) }
     }
 }
 

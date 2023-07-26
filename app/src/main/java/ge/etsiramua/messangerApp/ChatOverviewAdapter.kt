@@ -54,7 +54,6 @@ class ChatOverviewAdapter(
             listener.onItemClick(position)
         }
     }
-
     override fun getItemCount(): Int {
         return chatList.size
     }

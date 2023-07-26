@@ -19,9 +19,13 @@ import java.time.format.DateTimeFormatter
 class SearchAdapter(
     private val context: Context,
     private val chatList: List<User>,
+    private val listener: OnItemClickListener
 ) :
     RecyclerView.Adapter<SearchAdapter.SearchViewHolder>(){
 
+    interface OnItemClickListener {
+        fun onItemClick(position: Int)
+    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -37,6 +41,9 @@ class SearchAdapter(
         val chatItem = chatList[position]
         holder.job.text = chatItem.job
         holder.name.text = chatItem.nickname
+        holder.itemView.setOnClickListener {
+            listener.onItemClick(position)
+        }
         if(chatItem.profileImage != null ){
             Glide.with(context)
                 .load(chatItem.profileImage.toString())

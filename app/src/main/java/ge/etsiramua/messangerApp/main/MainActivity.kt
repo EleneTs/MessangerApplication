@@ -1,11 +1,14 @@
 package ge.etsiramua.messangerApp.main
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.IntentCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,9 +27,7 @@ import ge.etsiramua.messangerApp.signIn.SignInActivity
 import ge.etsiramua.messangerApp.user.ProfileActivity
 import ge.etsiramua.messangerApp.user.UserViewModel
 import ge.etsiramua.messangerApp.user.UserViewModelFactory
-import java.time.LocalDateTime
 import java.util.*
-import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity(), ChatOverviewAdapter.OnItemClickListener {
 
@@ -34,15 +35,17 @@ class MainActivity : AppCompatActivity(), ChatOverviewAdapter.OnItemClickListene
     private lateinit var plusButton: FloatingActionButton
     private lateinit var homeButton: ImageView
     private lateinit var settingsButton: ImageView
+    private lateinit var progressBar: ProgressBar
+    private lateinit var recyclerView: RecyclerView
     private var messagesList: List<Message> = emptyList()
     private var user: FirebaseUser? = null
 
     val chatViewModel: ChatViewModel by lazy {
-        ViewModelProvider(this, ChatViewModelFactory(application)).get(ChatViewModel::class.java)
+        ViewModelProvider(this, ChatViewModelFactory(application))[ChatViewModel::class.java]
     }
 
     private val userViewModel: UserViewModel by lazy {
-        ViewModelProvider(this, UserViewModelFactory(application)).get(UserViewModel::class.java)
+        ViewModelProvider(this, UserViewModelFactory(application))[UserViewModel::class.java]
     }
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,9 +53,14 @@ class MainActivity : AppCompatActivity(), ChatOverviewAdapter.OnItemClickListene
         setContentView(R.layout.activity_main)
         initViews()
 
+        progressBar = findViewById(R.id.progressBar)
+        recyclerView = findViewById(R.id.lastConversations)
+
+        progressBar.visibility = View.VISIBLE
+        recyclerView.visibility = View.INVISIBLE
+
         user = getUser()
         addListeners(user)
-
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -73,25 +81,20 @@ class MainActivity : AppCompatActivity(), ChatOverviewAdapter.OnItemClickListene
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setUpCurrentChats(user: FirebaseUser) {
-        val recyclerView: RecyclerView = findViewById(R.id.lastConversations)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         val chatList = getChatList { messages ->
             messagesList = messages!!
             val adapter = messages?.let { ChatOverviewAdapter(user.uid, it, this) }
             recyclerView.adapter = adapter
+
+            progressBar.visibility = View.GONE
+            recyclerView.visibility = View.VISIBLE
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getChatList(onComplete: (List<Message>?) -> Unit) {
-
-        val id1 = "D7Ib8seNZXbdftKkBtkwPTqPCSF2"
-        val id2 = "KUthvSYXxMfxn3TCukvtgsk2a8m2"
-
-        chatViewModel.sendMessage(senderId = id1, receiverId = user!!.uid, message = "Message text rggggggggg ggggggggggg ggggggggg gggggggg ggggggg gggggggg ggggggggg gggggg 3  min ago.", date = LocalDateTime.now().minusMinutes(3))
-        chatViewModel.sendMessage(senderId = id2, receiverId = user!!.uid, message = "Message text 1 min ago.", date = LocalDateTime.now().minusMinutes(1))
-        chatViewModel.sendMessage(senderId = user!!.uid, receiverId = id2, message = "Message texdddd ddddddddddd ddddddddddd dddddddddddddd dddddd dddddddd ddddddddddd ddddddd ddddddddt now.", date = LocalDateTime.now())
 
         chatViewModel.getAllLastMessages(user!!.uid) { lastMessages ->
             if (lastMessages != null) {
@@ -136,7 +139,8 @@ class MainActivity : AppCompatActivity(), ChatOverviewAdapter.OnItemClickListene
         }
 
         homeButton.setOnClickListener {
-
+            it.foregroundTintList = ColorStateList.valueOf(resources.getColor(R.color.black))
+            settingsButton.foregroundTintList = ColorStateList.valueOf(resources.getColor(R.color.blue))
         }
 
         settingsButton.setOnClickListener {
@@ -150,6 +154,8 @@ class MainActivity : AppCompatActivity(), ChatOverviewAdapter.OnItemClickListene
                 profileActivity.putExtra("currentUser", user)
                 startActivity(profileActivity)
             }
+            it.foregroundTintList = ColorStateList.valueOf(resources.getColor(R.color.blue))
+            settingsButton.foregroundTintList = ColorStateList.valueOf(resources.getColor(R.color.black))
         }
     }
 
@@ -166,7 +172,13 @@ class MainActivity : AppCompatActivity(), ChatOverviewAdapter.OnItemClickListene
     private fun openChatPage(message: Message) {
         val intent = Intent(this, ChatActivity::class.java)
         intent.putExtra("currentUser", user)
-        intent.putExtra("message", message)
+        val currentUserId = user!!.uid
+
+        var anotherUserId = message.senderId
+        if (message.senderId == currentUserId) {
+            anotherUserId = message.receiverId
+        }
+        intent.putExtra("anotherUserId", anotherUserId)
         startActivity(intent)
     }
 
