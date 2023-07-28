@@ -1,6 +1,8 @@
 package ge.etsiramua.messangerApp.chat
 
+import android.content.Context
 import android.os.Build
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.google.firebase.database.*
 import ge.etsiramua.messangerApp.model.Message
@@ -14,7 +16,7 @@ class ChatRepository {
     private val usersReferences: DatabaseReference =
         FirebaseDatabase.getInstance().getReference("users")
 
-    fun getAllLastMessages(userId: String, onComplete: (List<Message>) -> Unit) {
+    fun getAllLastMessages(userId: String, context: Context, onComplete: (List<Message>) -> Unit) {
         val query = messagesReferences.orderByChild("timestamp")
 
         val lastMessagesMap = mutableMapOf<String, Message>()
@@ -44,7 +46,7 @@ class ChatRepository {
                     }
                 }
 
-                getUsersNicknames(userIds) { nicknamesMap ->
+                getUsersNicknames(userIds, context) { nicknamesMap ->
                     lastMessagesMap.values.forEach { message ->
                         message.senderName = nicknamesMap[message.senderId]
                         message.receiverName = nicknamesMap[message.receiverId]
@@ -56,11 +58,12 @@ class ChatRepository {
             }
 
             override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(context, "Failed to fetch messages", Toast.LENGTH_SHORT).show()
             }
         })
     }
 
-    private fun getUsersNicknames(userIds: Set<String>, onComplete: (Map<String, String>) -> Unit) {
+    private fun getUsersNicknames(userIds: Set<String>, context: Context, onComplete: (Map<String, String>) -> Unit) {
         val nicknamesMap = mutableMapOf<String, String>()
         for (userId in userIds) {
             usersReferences.child(userId).child("nickname")
@@ -76,13 +79,14 @@ class ChatRepository {
                     }
 
                     override fun onCancelled(error: DatabaseError) {
+                        Toast.makeText(context, "Failed to fetch messages", Toast.LENGTH_SHORT).show()
                         onComplete(nicknamesMap)
                     }
                 })
         }
     }
 
-    fun getConversation(receiverId: String, senderId: String, onComplete: (List<Message>) -> Unit) {
+    fun getConversation(receiverId: String, senderId: String, context: Context, onComplete: (List<Message>) -> Unit) {
         val query = messagesReferences.orderByChild("timestamp")
 
         query.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -96,15 +100,13 @@ class ChatRepository {
                         messages.add(message)
                     }
                 }
-
                 onComplete(messages)
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+                Toast.makeText(context, "Failed to fetch messages", Toast.LENGTH_SHORT).show()
             }
         })
-
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

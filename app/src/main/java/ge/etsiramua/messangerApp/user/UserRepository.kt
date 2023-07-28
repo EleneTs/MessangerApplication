@@ -1,6 +1,8 @@
 package ge.etsiramua.messangerApp.user
 
+import android.content.Context
 import android.net.Uri
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
@@ -16,7 +18,7 @@ class UserRepository {
     private var firebaseStorage = FirebaseStorage.getInstance()
     private var storageReference = firebaseStorage.reference
 
-    fun getUser(firebaseUserId: String, callback: (User?) -> Unit) {
+    fun getUser(firebaseUserId: String, context: Context, callback: (User?) -> Unit) {
         val userReference = usersReference.child(firebaseUserId)
 
         userReference.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -31,22 +33,24 @@ class UserRepository {
                             callback(user)
                         }
                         .addOnFailureListener { exception ->
-                            println("Fetching image failed")
                             user.profileImage = null
                             callback(user)
+                            Toast.makeText(context, "Failed to fetch profile image for ${user.nickname}", Toast.LENGTH_SHORT).show()
                         }
                 } else {
                     callback(null)
+                    Toast.makeText(context, "Failed to fetch user", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
+                Toast.makeText(context, "Failed to fetch user", Toast.LENGTH_SHORT).show()
                 callback(null)
             }
         })
     }
 
-    fun updateUser(user: User) {
+    fun updateUser(user: User, context: Context) {
         val firebaseUser = FirebaseAuth.getInstance().currentUser
 
         val email = user.nickname?.let { formatNickname(it) }
@@ -59,8 +63,11 @@ class UserRepository {
                         user.id = firebaseUser.uid
                         userReference.setValue(user)
                     } else {
-                        print("User was not updated")
+                        Toast.makeText(context, "User was not updated", Toast.LENGTH_SHORT).show()
                     }
+                }
+                ?.addOnFailureListener {
+                    Toast.makeText(context, "User was not updated", Toast.LENGTH_SHORT).show()
                 }
         }
     }
@@ -73,14 +80,14 @@ class UserRepository {
         return "$nickname$EMAIL_SUFIX"
     }
 
-    fun uploadImage(changedPhotoFilepath: Uri) {
+    fun uploadImage(changedPhotoFilepath: Uri, context: Context) {
         val filename = "profile_images/profile_image_${Firebase.auth.currentUser!!.uid}"
         val ref = storageReference.child(filename)
         ref.putFile(changedPhotoFilepath).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 println("Image upload successful")
             } else {
-                println("Image upload failed")
+                Toast.makeText(context, "Image wasn't uploaded.", Toast.LENGTH_SHORT).show()
             }
         }
     }

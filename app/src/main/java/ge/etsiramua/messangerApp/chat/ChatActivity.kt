@@ -12,7 +12,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.IntentCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseUser
+import com.mikhaellopez.circularimageview.CircularImageView
 import ge.etsiramua.messangerApp.R
 import ge.etsiramua.messangerApp.user.UserRepository
 import java.time.LocalDateTime
@@ -27,6 +29,7 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var currentUserId: String
     private lateinit var anotherUserId: String
     private lateinit var onSendButton: ImageButton
+    private lateinit var profilePhotoImageView: CircularImageView
 
 
     val chatViewModel: ChatViewModel by lazy {
@@ -43,6 +46,7 @@ class ChatActivity : AppCompatActivity() {
         chatMessages = findViewById(R.id.chat_conversations)
         newMessageText = findViewById(R.id.message_edit_text)
         onSendButton = findViewById(R.id.send)
+        profilePhotoImageView = findViewById(R.id.chat_profile_pic)
 
         user = IntentCompat.getParcelableExtra(
             intent, "currentUser",
@@ -78,10 +82,15 @@ class ChatActivity : AppCompatActivity() {
 
     private fun displayUser() {
 
-        chatViewModel.getUser(anotherUserId!!) { user ->
+        chatViewModel.getUser(anotherUserId!!, this) { user ->
             if (user != null) {
                 nameTextView.text = user.nickname
                 positionTextView.text = user.job
+            }
+            if (user!!.profileImage != null) {
+                Glide.with(this)
+                    .load(user!!.profileImage.toString())
+                    .into(profilePhotoImageView)
             }
         }
 
@@ -90,7 +99,7 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun displayChat(receiverId: String?, senderId: String?) {
-        chatViewModel.getConversation(receiverId!!, senderId!!) { messages ->
+        chatViewModel.getConversation(receiverId!!, senderId!!, this) { messages ->
             val adapter = messages?.let { ChatMessagesAdapter(user!!.uid, it) }
             chatMessages.adapter = adapter
 

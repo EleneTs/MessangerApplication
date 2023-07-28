@@ -131,6 +131,7 @@
             android:paddingEnd="20dp"
             android:textAlignment="textStart"
             android:textColorHint="#6E6E6E"
+            android:maxLength="50"
             tools:ignore="TextContrastCheck" />
 
         <ImageButton
