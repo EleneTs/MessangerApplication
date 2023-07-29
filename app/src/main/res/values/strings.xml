@@ -5,4 +5,13 @@
     <string name="enter_your_password">Enter your password</string>
     <string name="update">update</string>
     <string name="sign_out_button_text">SIGN OUT</string>
+    <string name="search_hint">🔍 Search</string>
+    <string name="initial_nickname">Initial Nickname</string>
+    <string name="initial_career">Initial Career</string>
+    <string name="message_hint">Message</string>
+    <string name="sign_in">Sign In</string>
+    <string name="not_registered">Not Registered?</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="what_i_do">What I do</string>
+    <string name="date">date</string>
 </resources>

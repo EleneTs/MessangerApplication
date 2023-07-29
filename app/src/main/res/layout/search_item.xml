@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="100dp">
+    android:layout_height="@dimen/margin_hundred">
 
     <com.mikhaellopez.circularimageview.CircularImageView
         android:id="@+id/profile_picture"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="@dimen/margin_hundred"
+        android:layout_height="@dimen/margin_hundred"
         android:src="@drawable/avatar_image_placeholder"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -16,16 +16,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:civ_border_color="@color/blue"
-        app:civ_border_width="1dp"
+        app:civ_border_width="@dimen/width_one"
         app:civ_shadow="true"
-        app:civ_shadow_radius="10dp" />
+        app:civ_shadow_radius="@dimen/margin_ten" />
 
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/margin_ten"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -36,17 +36,16 @@
 
     <TextView
         android:id="@+id/job"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
+        android:layout_width="@dimen/zero"
+        android:layout_height="@dimen/zero"
+        android:layout_marginStart="@dimen/margin_ten"
+        android:layout_marginTop="@dimen/top_margin_small"
+        android:layout_marginEnd="@dimen/margin_ten"
+        android:layout_marginBottom="@dimen/margin_medium"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/profile_picture"
-        app:layout_constraintTop_toBottomOf="@+id/name"
-        tools:text="Hello World" />
+        app:layout_constraintTop_toBottomOf="@+id/name" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

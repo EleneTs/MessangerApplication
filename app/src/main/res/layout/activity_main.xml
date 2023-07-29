@@ -46,25 +46,25 @@
 
             <androidx.appcompat.widget.Toolbar
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="@dimen/margin_hundred"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" >
 
                 <EditText
                     android:id="@+id/main_search_text"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginBottom="0dp"
+                    android:layout_height="@dimen/margin_fifty"
+                    android:layout_marginHorizontal="@dimen/margin_twenty"
+                    android:layout_marginBottom="@dimen/zero"
                     android:background="@drawable/search_border"
-                    android:backgroundTint="#C7EFF4F4"
-                    android:hint="Search"
+                    android:backgroundTint="@color/background_tint"
+                    android:hint="@string/search_hint"
                     android:importantForAutofill="no"
                     android:inputType="text"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp"
+                    android:paddingStart="@dimen/margin_twenty"
+                    android:paddingEnd="@dimen/margin_twenty"
                     android:textAlignment="textStart"
-                    android:textColorHint="#252525"
+                    android:textColorHint="@color/gray"
                     tools:ignore="TextContrastCheck" />
 
             </androidx.appcompat.widget.Toolbar>
