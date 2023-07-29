@@ -3,17 +3,22 @@ package ge.etsiramua.messangerApp.user
 import android.app.Activity
 import android.app.Application
 import android.content.Intent
+import android.media.Image
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.IntentCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.FirebaseUser
 import com.mikhaellopez.circularimageview.CircularImageView
 import ge.etsiramua.messangerApp.main.MainActivity
@@ -28,8 +33,11 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var nicknameEditText: EditText
     private lateinit var careerEditText: EditText
     private lateinit var homeButton: ImageView
+    private lateinit var progressBar: ProgressBar
     private lateinit var settingsButton: ImageView
     private lateinit var profilePhotoImageView: CircularImageView
+    private lateinit var updateButton: MaterialButton
+    private lateinit var signOutButton: MaterialButton
 
     private var selectedImageUri: Uri? = null
     private var retrievedUser: User? = null
@@ -41,6 +49,7 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
         initViews()
+        startProgressBar()
 
         val user = IntentCompat.getParcelableExtra(intent, "currentUser", FirebaseUser::class.java)
         setupListeners(user)
@@ -53,6 +62,31 @@ class ProfileActivity : AppCompatActivity() {
         homeButton = findViewById(R.id.home_button)
         settingsButton = findViewById(R.id.settings_button)
         profilePhotoImageView = findViewById(R.id.profile_photo)
+        progressBar = findViewById(R.id.profileProgressBar)
+        signOutButton = findViewById(R.id.sign_out_button)
+        updateButton = findViewById(R.id.update_button)
+    }
+
+    private fun startProgressBar() {
+        progressBar.visibility = View.VISIBLE
+        nicknameEditText.visibility = View.INVISIBLE
+        careerEditText.visibility = View.INVISIBLE
+        homeButton.visibility = View.INVISIBLE
+        settingsButton.visibility = View.INVISIBLE
+        profilePhotoImageView.visibility = View.INVISIBLE
+        signOutButton.visibility = View.INVISIBLE
+        updateButton.visibility = View.INVISIBLE
+    }
+
+    private fun stopProgressBar() {
+        progressBar.visibility = View.GONE
+        nicknameEditText.visibility = View.VISIBLE
+        careerEditText.visibility = View.VISIBLE
+        homeButton.visibility = View.VISIBLE
+        settingsButton.visibility = View.VISIBLE
+        profilePhotoImageView.visibility = View.VISIBLE
+        signOutButton.visibility = View.VISIBLE
+        updateButton.visibility = View.VISIBLE
     }
 
     private fun setupListeners(user: FirebaseUser?) {
@@ -64,11 +98,11 @@ class ProfileActivity : AppCompatActivity() {
             openGalleryForImage()
         }
 
-        findViewById<Button>(R.id.sign_out_button).setOnClickListener {
+        signOutButton.setOnClickListener {
             signOut()
         }
 
-        findViewById<Button>(R.id.update_button).setOnClickListener {
+        updateButton.setOnClickListener {
             updateUser()
         }
     }
@@ -113,6 +147,7 @@ class ProfileActivity : AppCompatActivity() {
                             .into(profilePhotoImageView)
                     }
                 }
+                stopProgressBar()
             }
         }
     }

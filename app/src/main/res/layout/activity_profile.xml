@@ -5,6 +5,16 @@
     android:layout_height="match_parent">
     <include layout="@layout/bottom_bar" />
 
+    <ProgressBar
+        android:id="@+id/profileProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+    </ProgressBar>
+
     <com.mikhaellopez.circularimageview.CircularImageView
         android:id="@+id/profile_photo"
         android:layout_width="@dimen/profile_picture_width"
