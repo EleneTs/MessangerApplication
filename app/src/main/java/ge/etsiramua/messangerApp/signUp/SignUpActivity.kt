@@ -19,7 +19,7 @@ class SignUpActivity : AppCompatActivity() {
     private lateinit var password: EditText
     private lateinit var job: EditText
 
-    val signUpViewModel: SignUpViewModel by lazy {
+    private val signUpViewModel: SignUpViewModel by lazy {
         ViewModelProvider(this, SignUpViewModelsFactory(application)).get(SignUpViewModel::class.java)
     }
 
@@ -45,6 +45,9 @@ class SignUpActivity : AppCompatActivity() {
 
         if (password.text.isEmpty()) {
             Toast.makeText(this, "Please enter a password.", Toast.LENGTH_SHORT).show()
+            return
+        } else if (password.text.length < 6) {
+            Toast.makeText(this, "Password must be at least 6 characters", Toast.LENGTH_SHORT).show()
             return
         }
 
