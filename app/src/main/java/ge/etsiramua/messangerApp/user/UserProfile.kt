@@ -16,11 +16,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseUser
 import com.mikhaellopez.circularimageview.CircularImageView
 import ge.etsiramua.messangerApp.main.MainActivity
 import ge.etsiramua.messangerApp.R
+import ge.etsiramua.messangerApp.main.REQUEST_CODE_CHILD_ACTIVITY
 import ge.etsiramua.messangerApp.model.User
+import ge.etsiramua.messangerApp.search.SearchActivity
 
 class ProfileActivity : AppCompatActivity() {
     companion object {
@@ -29,6 +32,7 @@ class ProfileActivity : AppCompatActivity() {
 
     private lateinit var nicknameEditText: EditText
     private lateinit var careerEditText: EditText
+    private lateinit var plusButton: FloatingActionButton
     private lateinit var homeButton: ImageView
     private lateinit var progressBar: ProgressBar
     private lateinit var settingsButton: ImageView
@@ -53,6 +57,11 @@ class ProfileActivity : AppCompatActivity() {
         displayUser(user)
     }
 
+    private fun openSearchPage() {
+        val intent = Intent(this, SearchActivity::class.java)
+        startActivityForResult(intent, REQUEST_CODE_CHILD_ACTIVITY)
+    }
+
     private fun initViews() {
         nicknameEditText = findViewById(R.id.nickname)
         careerEditText = findViewById(R.id.career)
@@ -62,14 +71,13 @@ class ProfileActivity : AppCompatActivity() {
         progressBar = findViewById(R.id.profileProgressBar)
         signOutButton = findViewById(R.id.sign_out_button)
         updateButton = findViewById(R.id.update_button)
+        plusButton = findViewById(R.id.plus_button)
     }
 
     private fun startProgressBar() {
         progressBar.visibility = View.VISIBLE
         nicknameEditText.visibility = View.INVISIBLE
         careerEditText.visibility = View.INVISIBLE
-        homeButton.visibility = View.INVISIBLE
-        settingsButton.visibility = View.INVISIBLE
         profilePhotoImageView.visibility = View.INVISIBLE
         signOutButton.visibility = View.INVISIBLE
         updateButton.visibility = View.INVISIBLE
@@ -79,14 +87,16 @@ class ProfileActivity : AppCompatActivity() {
         progressBar.visibility = View.GONE
         nicknameEditText.visibility = View.VISIBLE
         careerEditText.visibility = View.VISIBLE
-        homeButton.visibility = View.VISIBLE
-        settingsButton.visibility = View.VISIBLE
         profilePhotoImageView.visibility = View.VISIBLE
         signOutButton.visibility = View.VISIBLE
         updateButton.visibility = View.VISIBLE
     }
 
     private fun setupListeners(user: FirebaseUser?) {
+        plusButton.setOnClickListener {
+            openSearchPage();
+        }
+
         homeButton.setOnClickListener {
             redirectToHomepage(user)
         }

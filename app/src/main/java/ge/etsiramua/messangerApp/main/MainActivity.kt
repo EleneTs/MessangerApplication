@@ -193,7 +193,6 @@ class MainActivity : AppCompatActivity(), ChatOverviewAdapter.OnItemClickListene
 
     private fun openSearchPage() {
         val intent = Intent(this, SearchActivity::class.java)
-//        startActivity(intent)
         startActivityForResult(intent, REQUEST_CODE_CHILD_ACTIVITY)
     }
 
