@@ -2,7 +2,6 @@ package ge.etsiramua.messangerApp.chat
 
 import android.app.Activity
 import android.app.Application
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.View
