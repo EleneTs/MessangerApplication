@@ -35,7 +35,7 @@ class UserRepository {
                         .addOnFailureListener { exception ->
                             user.profileImage = null
                             callback(user)
-                            Toast.makeText(context, "Failed to fetch profile image for ${user.nickname}", Toast.LENGTH_SHORT).show()
+//                            Toast.makeText(context, "Failed to fetch profile image for ${user.nickname}", Toast.LENGTH_SHORT).show()
                         }
                 } else {
                     callback(null)

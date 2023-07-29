@@ -52,6 +52,10 @@ class ChatRepository {
                         message.receiverName = nicknamesMap[message.receiverId]
                     }
 
+                    if (nicknamesMap.isEmpty()) {
+                        onComplete(emptyList())
+                    }
+
                     val lastMessagesList = lastMessagesMap.values.toList()
                     onComplete(lastMessagesList)
                 }
@@ -65,6 +69,9 @@ class ChatRepository {
 
     private fun getUsersNicknames(userIds: Set<String>, context: Context, onComplete: (Map<String, String>) -> Unit) {
         val nicknamesMap = mutableMapOf<String, String>()
+        if (userIds.isEmpty()) {
+            onComplete(emptyMap())
+        }
         for (userId in userIds) {
             usersReferences.child(userId).child("nickname")
                 .addListenerForSingleValueEvent(object : ValueEventListener {

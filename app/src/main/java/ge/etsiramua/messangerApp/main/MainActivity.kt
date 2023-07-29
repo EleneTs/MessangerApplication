@@ -1,5 +1,6 @@
 package ge.etsiramua.messangerApp.main
 
+import android.app.Activity
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Build
@@ -33,7 +34,10 @@ import ge.etsiramua.messangerApp.user.UserViewModel
 import ge.etsiramua.messangerApp.user.UserViewModelFactory
 import java.util.*
 
+const val REQUEST_CODE_CHILD_ACTIVITY = 1
 class MainActivity : AppCompatActivity(), ChatOverviewAdapter.OnItemClickListener {
+
+
 
     private lateinit var bottomAppBar: BottomAppBar
     private lateinit var plusButton: FloatingActionButton
@@ -69,6 +73,18 @@ class MainActivity : AppCompatActivity(), ChatOverviewAdapter.OnItemClickListene
         addListeners(user)
     }
 
+    @Deprecated("Deprecated in Java")
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        progressBar.visibility = View.INVISIBLE
+        recyclerView.visibility = View.VISIBLE
+        if (resultCode == Activity.RESULT_OK) {
+            user?.let { setUpCurrentChats(it) }
+        }
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getUser(): FirebaseUser? {
         user = IntentCompat.getParcelableExtra(
@@ -101,12 +117,15 @@ class MainActivity : AppCompatActivity(), ChatOverviewAdapter.OnItemClickListene
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getChatList(onComplete: (List<Message>?) -> Unit) {
-
         chatViewModel.getAllLastMessages(user!!.uid, this) { lastMessages ->
             if (lastMessages != null) {
                 val messages = lastMessages.sortedByDescending { it.timestamp }
                 messagesList = messages
                 onComplete(messages)
+                if (lastMessages.isEmpty()) {
+                    progressBar.visibility = View.GONE
+                    recyclerView.visibility = View.VISIBLE
+                }
             }
         }
     }
@@ -159,7 +178,8 @@ class MainActivity : AppCompatActivity(), ChatOverviewAdapter.OnItemClickListene
             if (currentUser != null) {
                 val profileActivity = Intent(this, ProfileActivity::class.java)
                 profileActivity.putExtra("currentUser", user)
-                startActivity(profileActivity)
+//                startActivity(profileActivity)
+                startActivityForResult(profileActivity, REQUEST_CODE_CHILD_ACTIVITY)
             }
             it.foregroundTintList = ColorStateList.valueOf(resources.getColor(R.color.blue))
             settingsButton.foregroundTintList = ColorStateList.valueOf(resources.getColor(R.color.black))
@@ -173,7 +193,8 @@ class MainActivity : AppCompatActivity(), ChatOverviewAdapter.OnItemClickListene
 
     private fun openSearchPage() {
         val intent = Intent(this, SearchActivity::class.java)
-        startActivity(intent)
+//        startActivity(intent)
+        startActivityForResult(intent, REQUEST_CODE_CHILD_ACTIVITY)
     }
 
     private fun openChatPage(message: Message) {
