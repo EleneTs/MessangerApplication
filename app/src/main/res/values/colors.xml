@@ -12,5 +12,7 @@
     <color name="gray">#E0E0E0</color>
     <color name="light_black">#FF555555</color>
     <color name="background_tint">#C7EFF4F4</color>
+    <color name="light_gray">#6E6E6E</color>
+
 
 </resources>

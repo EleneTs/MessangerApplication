@@ -31,8 +31,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="message text"
-        android:textSize="14sp"
+        android:textSize="@dimen/medium_text_size"
         android:paddingHorizontal="@dimen/margin_ten"
         android:paddingVertical="@dimen/margin_ten"/>
 

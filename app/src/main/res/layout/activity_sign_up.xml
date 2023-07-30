@@ -8,9 +8,9 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="110dp"
+        android:layout_width="@dimen/sign_up_size"
+        android:layout_height="@dimen/sign_up_size"
+        android:layout_marginTop="@dimen/sign_up_margin"
         android:src="@drawable/avatar_image_placeholder"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,7 +20,7 @@
         android:id="@+id/editTextNickname"
         android:layout_width="@dimen/width_big"
         android:layout_height="@dimen/margin_fifty"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="@dimen/sign_in_top_margin"
         android:ems="10"
         android:inputType="textPersonName"
         android:hint="@string/enter_your_nickname"
@@ -33,9 +33,9 @@
 
     <EditText
         android:id="@+id/editTextPassword"
-        android:layout_width="250dp"
+        android:layout_width="@dimen/sign_in_width"
         android:layout_height="@dimen/margin_fifty"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="@dimen/sign_in_top_margin"
         android:ems="10"
         android:hint="@string/enter_your_password"
         android:inputType="textPassword"
@@ -48,9 +48,9 @@
 
     <EditText
         android:id="@+id/editTextJob"
-        android:layout_width="250dp"
+        android:layout_width="@dimen/sign_in_width"
         android:layout_height="@dimen/margin_fifty"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="@dimen/sign_in_top_margin"
         android:ems="10"
         android:inputType="textPersonName"
         android:hint="@string/what_i_do"
