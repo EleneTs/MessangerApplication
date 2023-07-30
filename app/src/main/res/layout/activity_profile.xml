@@ -5,6 +5,16 @@
     android:layout_height="match_parent">
     <include layout="@layout/bottom_bar" />
 
+    <ProgressBar
+        android:id="@+id/profileProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+    </ProgressBar>
+
     <com.mikhaellopez.circularimageview.CircularImageView
         android:id="@+id/profile_photo"
         android:layout_width="@dimen/profile_picture_width"
@@ -32,7 +42,7 @@
         android:maxLines="1"
         android:singleLine="true"
         android:scrollHorizontally="true"
-        android:text="Initial Nickname"
+        android:text="@string/initial_nickname"
         android:textAlignment="center"
         android:textSize="@dimen/text_size"
         app:layout_constraintEnd_toEndOf="parent"
@@ -51,7 +61,7 @@
         android:maxLines="1"
         android:scrollHorizontally="true"
         android:singleLine="true"
-        android:text="Initial Career"
+        android:text="@string/initial_career"
         android:textAlignment="center"
         android:textSize="@dimen/text_size"
         app:layout_constraintEnd_toEndOf="parent"
@@ -73,7 +83,7 @@
         android:id="@+id/sign_out_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/margin_ten"
         android:backgroundTint="@android:color/transparent"
         android:text="@string/sign_out_button_text"
         android:textColor="@color/light_black"

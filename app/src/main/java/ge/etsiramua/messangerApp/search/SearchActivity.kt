@@ -1,5 +1,6 @@
 package ge.etsiramua.messangerApp.search
 
+import android.app.Activity
 import android.app.Application
 import android.content.Intent
 import android.os.Bundle
@@ -43,7 +44,7 @@ class SearchActivity : AppCompatActivity(), SearchAdapter.OnItemClickListener {
         val searchField = findViewById<EditText>(R.id.search_field)
 
         recyclerView = findViewById(R.id.friends)
-        progressBar = findViewById<ProgressBar>(R.id.searchProgressBar)
+        progressBar = findViewById(R.id.searchProgressBar)
 
         progressBar.visibility = View.VISIBLE
         recyclerView.visibility = View.INVISIBLE
@@ -54,6 +55,7 @@ class SearchActivity : AppCompatActivity(), SearchAdapter.OnItemClickListener {
     }
 
     fun onBack(view: View) {
+        setResult(Activity.RESULT_OK)
         finish()
     }
 

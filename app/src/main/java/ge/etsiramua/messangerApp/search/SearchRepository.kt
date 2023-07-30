@@ -37,7 +37,7 @@ class SearchRepository {
                             user.profileImage = uri
                         }
                         .addOnFailureListener { exception ->
-                            Toast.makeText(context, "Failed to fetch profile image for ${user.nickname}", Toast.LENGTH_SHORT).show()
+//                            Toast.makeText(context, "Failed to fetch profile image for ${user.nickname}", Toast.LENGTH_SHORT).show()
                         }
                 }
 

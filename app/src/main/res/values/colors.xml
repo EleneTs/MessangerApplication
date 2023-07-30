@@ -11,5 +11,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#E0E0E0</color>
     <color name="light_black">#FF555555</color>
+    <color name="background_tint">#C7EFF4F4</color>
 
 </resources>

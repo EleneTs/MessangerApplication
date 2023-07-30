@@ -1,5 +1,6 @@
 package ge.etsiramua.messangerApp.chat
 
+import android.app.Activity
 import android.app.Application
 import android.os.Build
 import android.os.Bundle
@@ -59,8 +60,10 @@ class ChatActivity : AppCompatActivity() {
         onSendButton.setOnClickListener {
             val messageText = newMessageText.text.toString()
             newMessageText.text.clear()
+            if (messageText != "") {
+                chatViewModel.sendMessage(anotherUserId, currentUserId, messageText, LocalDateTime.now())
+            }
 
-            chatViewModel.sendMessage(anotherUserId, currentUserId, messageText, LocalDateTime.now())
 
             displayChat(currentUserId, anotherUserId)
         }
@@ -69,6 +72,7 @@ class ChatActivity : AppCompatActivity() {
     }
 
     fun onBack(view: View) {
+        setResult(Activity.RESULT_OK)
         finish()
     }
 
