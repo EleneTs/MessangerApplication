@@ -20,16 +20,13 @@
         app:civ_shadow="true"
         app:civ_shadow_radius="@dimen/margin_ten" />
 
-
-
     <TextView
         android:id="@+id/message_sender_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
+        android:layout_marginStart="@dimen/space_between_texts"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="18sp"
-        tools:text="Charles Leclerc"
+        android:textSize="@dimen/big_text_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/profile_picture"
         app:layout_constraintTop_toTopOf="parent"
@@ -39,23 +36,21 @@
         android:id="@+id/last_message"
         android:layout_width="@dimen/zero"
         android:layout_height="@dimen/zero"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginStart="@dimen/space_between_texts"
+        android:layout_marginTop="@dimen/margin_eight"
+        android:layout_marginEnd="@dimen/margin_eight"
+        android:layout_marginBottom="@dimen/margin_sixteen"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/profile_picture"
-        app:layout_constraintTop_toBottomOf="@+id/message_sender_name"
-        tools:text="Hello World" />
+        app:layout_constraintTop_toBottomOf="@+id/message_sender_name" />
 
     <TextView
         android:id="@+id/last_message_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        tools:text="Date"
+        android:layout_marginEnd="@dimen/margin_sixteen"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"

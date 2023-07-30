@@ -31,15 +31,15 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="150dp">
+                    android:layout_height="@dimen/layout_height">
 
                     <ImageView
                         android:id="@+id/back_back"
                         android:layout_width="@dimen/margin_forty"
                         android:layout_height="@dimen/margin_forty"
                         android:layout_gravity="start|top"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="@dimen/chat_margin_top"
+                        android:layout_marginBottom="@dimen/chat_margin_bottom"
                         android:onClick="onBack"
                         android:src="@drawable/baseline_arrow_back_ios_24"
                         app:layout_constraintBottom_toTopOf="@+id/toolbarname"
@@ -53,8 +53,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
-                        android:layout_marginStart="30dp"
-                        android:layout_marginTop="80dp"
+                        android:layout_marginStart="@dimen/chat_text_margin_start"
+                        android:layout_marginTop="@dimen/chat_text_margin_top"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                         android:textColor="@color/white"
                         android:visibility="visible"
@@ -76,7 +76,7 @@
                         android:id="@+id/chat_profile_pic"
                         android:layout_width="@dimen/margin_hundred"
                         android:layout_height="@dimen/margin_hundred"
-                        android:layout_marginEnd="5dp"
+                        android:layout_marginEnd="@dimen/chat_image_margin_end"
                         android:src="@drawable/avatar_image_placeholder"
                         app:civ_border_color="@color/blue"
                         app:civ_shadow="true"
@@ -111,11 +111,11 @@
         android:id="@+id/relativechat"
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_fifty"
-        android:layout_marginHorizontal="26dp"
-        android:layout_marginTop="26dp"
+        android:layout_marginHorizontal="@dimen/chat_relative_margin"
+        android:layout_marginTop="@dimen/chat_relative_margin"
         app:layout_constraintTop_toBottomOf="@id/scrollView2"
         app:layout_constraintBottom_toBottomOf="@id/coordinator_layout"
-        tools:layout_editor_absoluteX="26dp"
+        tools:layout_editor_absoluteX="@dimen/chat_relative_margin"
         tools:ignore="NotSibling">
 
         <EditText
@@ -130,7 +130,7 @@
             android:paddingStart="@dimen/margin_ten"
             android:paddingEnd="@dimen/margin_twenty"
             android:textAlignment="textStart"
-            android:textColorHint="#6E6E6E"
+            android:textColorHint="@color/light_gray"
             android:maxLength="50"
             tools:ignore="TextContrastCheck" />
 
@@ -141,7 +141,7 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="12dp"
+            android:layout_marginEnd="@dimen/chat_profile_image_margin"
             android:backgroundTint="#00000000"
             android:onClick="onMessageSend"
             android:src="@drawable/baseline_circle_24"

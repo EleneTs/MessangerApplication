@@ -31,7 +31,7 @@
 
             <androidx.appcompat.widget.Toolbar
                 android:layout_width="match_parent"
-                android:layout_height="80dp">
+                android:layout_height="@dimen/margin_search">
 
                 <ImageView
                     android:id="@+id/my_button"
@@ -85,7 +85,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/friends"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="@dimen/margin_search"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
