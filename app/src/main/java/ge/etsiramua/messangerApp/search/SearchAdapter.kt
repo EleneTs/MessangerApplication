@@ -26,7 +26,6 @@ class SearchAdapter(
     interface OnItemClickListener {
         fun onItemClick(position: Int)
     }
-
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -53,22 +52,6 @@ class SearchAdapter(
 
     override fun getItemCount(): Int {
         return chatList.size
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun calculateDate(dateTime: LocalDateTime): String {
-        val currentDateTime = LocalDateTime.now()
-        val duration = Duration.between(dateTime, currentDateTime)
-
-
-        return when {
-            duration.toMinutes() < 60 -> "${duration.toMinutes()} min"
-            duration.toHours() < 24 -> "${duration.toHours()} hour"
-            else -> {
-                val formatter = DateTimeFormatter.ofPattern("d MMM")
-                return dateTime.format(formatter)
-            }
-        }
     }
 
     class SearchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

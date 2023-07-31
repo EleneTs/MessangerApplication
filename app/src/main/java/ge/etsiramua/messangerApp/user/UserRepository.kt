@@ -28,7 +28,6 @@ class UserRepository {
                     val profileImageRef = storageReference.child("profile_images/profile_image_${firebaseUserId}")
                     profileImageRef.downloadUrl
                         .addOnSuccessListener { uri ->
-                            println("Fetching image successfully")
                             user.profileImage = uri
                             callback(user)
                         }
@@ -84,9 +83,7 @@ class UserRepository {
         val filename = "profile_images/profile_image_${Firebase.auth.currentUser!!.uid}"
         val ref = storageReference.child(filename)
         ref.putFile(changedPhotoFilepath).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                println("Image upload successful")
-            } else {
+            if (!task.isSuccessful) {
                 Toast.makeText(context, "Image wasn't uploaded.", Toast.LENGTH_SHORT).show()
             }
         }

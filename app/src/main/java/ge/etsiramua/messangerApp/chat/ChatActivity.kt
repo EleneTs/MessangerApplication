@@ -32,8 +32,7 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var onSendButton: ImageButton
     private lateinit var profilePhotoImageView: CircularImageView
 
-
-    val chatViewModel: ChatViewModel by lazy {
+    private val chatViewModel: ChatViewModel by lazy {
         ViewModelProvider(this, ChatViewModelFactory(application)).get(ChatViewModel::class.java)
     }
 
@@ -63,11 +62,8 @@ class ChatActivity : AppCompatActivity() {
             if (messageText != "") {
                 chatViewModel.sendMessage(anotherUserId, currentUserId, messageText, LocalDateTime.now())
             }
-
-
             displayChat(currentUserId, anotherUserId)
         }
-
         displayUser()
     }
 
@@ -80,7 +76,6 @@ class ChatActivity : AppCompatActivity() {
         val anotherUserId = intent.getStringExtra(
             "anotherUserId"
         )
-
         return anotherUserId!!
     }
 
@@ -99,7 +94,6 @@ class ChatActivity : AppCompatActivity() {
         }
 
         displayChat(currentUserId, anotherUserId)
-
     }
 
     private fun displayChat(receiverId: String?, senderId: String?) {

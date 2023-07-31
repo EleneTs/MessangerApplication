@@ -27,15 +27,13 @@ class SearchActivity : AppCompatActivity(), SearchAdapter.OnItemClickListener {
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
     private var usersList = emptyList<User>()
-
-    // TODO - ese wamogeba albat ar ari kai idea
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
 
-    val searchViewModel: SearchViewModel by lazy {
+    private val searchViewModel: SearchViewModel by lazy {
         ViewModelProvider(
             this,
             SearchViewModelsFactory(application)
-        ).get(SearchViewModel::class.java)
+        )[SearchViewModel::class.java]
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,7 +75,6 @@ class SearchActivity : AppCompatActivity(), SearchAdapter.OnItemClickListener {
                 debounceRunnable?.let { handler.removeCallbacks(it) }
                 debounceRunnable = Runnable {
                     val searchText = s?.toString() ?: ""
-                    println("User typed: $searchText")
                     fetchUsers(namePrefix = searchText)
                 }
                 handler.postDelayed(debounceRunnable!!, 1000)
@@ -115,7 +112,6 @@ class SearchActivity : AppCompatActivity(), SearchAdapter.OnItemClickListener {
     }
 
     private fun openChatPage(userId: String) {
-        println("open chat page for id: $userId")
         val intent = Intent(this, ChatActivity::class.java)
         intent.putExtra("currentUser", auth.currentUser)
         intent.putExtra("anotherUserId", userId)
@@ -123,7 +119,6 @@ class SearchActivity : AppCompatActivity(), SearchAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(position: Int) {
-        println("Opening chat for position $position")
         usersList[position].id?.let { openChatPage(it) }
     }
 }

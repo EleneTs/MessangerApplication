@@ -13,7 +13,6 @@ class SignInRepository {
         val email = formatNickname(nickname)
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                println("USER SIGNED IN")
                 callback(auth.currentUser, null)
             } else {
                 val exception = task.exception
@@ -21,7 +20,6 @@ class SignInRepository {
             }
         }
     }
-
     private fun formatNickname(nickname: String): String {
         return "$nickname$EMAIL_SUFIX"
     }

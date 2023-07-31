@@ -37,8 +37,6 @@ import java.util.*
 const val REQUEST_CODE_CHILD_ACTIVITY = 1
 class MainActivity : AppCompatActivity(), ChatOverviewAdapter.OnItemClickListener {
 
-
-
     private lateinit var bottomAppBar: BottomAppBar
     private lateinit var plusButton: FloatingActionButton
     private lateinit var homeButton: ImageView
@@ -91,12 +89,10 @@ class MainActivity : AppCompatActivity(), ChatOverviewAdapter.OnItemClickListene
             intent, "currentUser",
             FirebaseUser::class.java
         )
-
         user?.let { setUpCurrentChats(it) }
 
-        if (user == null) {
+        if (user == null)
             openSignInPage()
-        }
 
         return user
     }
@@ -141,7 +137,6 @@ class MainActivity : AppCompatActivity(), ChatOverviewAdapter.OnItemClickListene
                 if (sender != null) {
                     message.senderName = sender.nickname
                     message.senderPictureUri = sender.profileImage
-                    println(message)
                     updatedMessages.add(message)
                 }
             }
@@ -178,7 +173,6 @@ class MainActivity : AppCompatActivity(), ChatOverviewAdapter.OnItemClickListene
             if (currentUser != null) {
                 val profileActivity = Intent(this, ProfileActivity::class.java)
                 profileActivity.putExtra("currentUser", user)
-//                startActivity(profileActivity)
                 startActivityForResult(profileActivity, REQUEST_CODE_CHILD_ACTIVITY)
             }
             it.foregroundTintList = ColorStateList.valueOf(resources.getColor(R.color.blue))
@@ -231,7 +225,6 @@ class MainActivity : AppCompatActivity(), ChatOverviewAdapter.OnItemClickListene
                 debounceRunnable?.let { handler.removeCallbacks(it) }
                 debounceRunnable = Runnable {
                     val searchText = s?.toString() ?: ""
-                    println("User typed: $searchText")
                     filterUsers(namePrefix = searchText)
                 }
                 handler.postDelayed(debounceRunnable!!, 1000)

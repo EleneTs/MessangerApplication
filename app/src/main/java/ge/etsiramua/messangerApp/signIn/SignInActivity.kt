@@ -18,7 +18,7 @@ class SignInActivity : AppCompatActivity() {
     private lateinit var nickname: EditText
     private lateinit var password: EditText
 
-    val signInViewModel: SignInViewModel by lazy {
+    private val signInViewModel: SignInViewModel by lazy {
         ViewModelProvider(this, SignInViewModelsFactory(application)).get(SignInViewModel::class.java)
     }
 

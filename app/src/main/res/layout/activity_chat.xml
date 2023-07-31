@@ -57,7 +57,8 @@
                         android:layout_marginTop="@dimen/chat_text_margin_top"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                         android:textColor="@color/white"
-                        android:visibility="visible"
+                        android:textSize="@dimen/very_big_text_size"
+                        android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="name" />
