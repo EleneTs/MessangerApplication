@@ -82,7 +82,6 @@ class ProfileActivity : AppCompatActivity() {
         signOutButton.visibility = View.INVISIBLE
         updateButton.visibility = View.INVISIBLE
     }
-
     private fun stopProgressBar() {
         progressBar.visibility = View.GONE
         nicknameEditText.visibility = View.VISIBLE

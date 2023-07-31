@@ -3,7 +3,7 @@ package ge.etsiramua.messangerApp.signUp
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseUser
 
-class SignUpViewModel(val repository: SignUpRepository) : ViewModel() {
+class SignUpViewModel(repository: SignUpRepository) : ViewModel() {
 
     private var rep = repository
 

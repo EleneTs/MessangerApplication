@@ -31,7 +31,6 @@ class SignUpRepository {
         }
     }
 
-
     private fun formatNickname(nickname: String): String {
         return "$nickname$EMAIL_SUFIX"
     }

@@ -9,8 +9,7 @@ import ge.etsiramua.messangerApp.model.User
 import ge.etsiramua.messangerApp.user.UserRepository
 import java.time.LocalDateTime
 
-class ChatViewModel(val repository: ChatRepository, val userRepository: UserRepository) : ViewModel() {
-
+class ChatViewModel(private val repository: ChatRepository, private val userRepository: UserRepository) : ViewModel() {
     fun getAllLastMessages(userId: String ,context: Context, onComplete: (List<Message>?) -> Unit) {
         repository.getAllLastMessages(userId, context) { messages ->
             onComplete(messages)

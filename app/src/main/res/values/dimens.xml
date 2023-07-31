@@ -50,6 +50,7 @@
     <dimen name="margin_sixteen">16dp</dimen>
     <dimen name="margin_fifteen">15dp</dimen>
     <dimen name="big_text_size">18sp</dimen>
+    <dimen name="very_big_text_size">24sp</dimen>
     <dimen name="medium_text_size">14sp</dimen>
 
 </resources>
